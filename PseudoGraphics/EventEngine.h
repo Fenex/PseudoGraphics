@@ -1,4 +1,7 @@
 #pragma once
+#ifndef EVENT_ENGINE_H
+#define EVENT_ENGINE_H
+
 
 #include "Control.h"
 #include <windows.h>
@@ -17,3 +20,6 @@ private:
 	HANDLE _console;
 	DWORD _consoleMode;
 };
+
+
+#endif // !EVENT_ENGINE_H

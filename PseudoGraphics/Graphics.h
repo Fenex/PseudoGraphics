@@ -1,4 +1,7 @@
 #pragma once
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
+
 
 #include <string>
 #include <windows.h>
@@ -28,3 +31,6 @@ private:
 };
 
 bool isInside(int x, int y, int left, int top, int width, int height);
+
+
+#endif // !GRAPHICS_H
