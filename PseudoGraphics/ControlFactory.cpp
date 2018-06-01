@@ -19,7 +19,7 @@ ControlsFactory::create(ControlProduct product) {
 		control = new Button();
 		break;
 	case PANEL:
-		//return new Panel();
+		control = new Panel();
 		break;
 	case CHECK_LIST:
 		//control = new CheckList();

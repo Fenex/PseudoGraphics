@@ -26,14 +26,13 @@ typedef enum {
 class Control {
 
 protected:
-	short left;
-	short top;
-	short _dim_x, _dim_y;
+	short _left, _top;
+	short _width, _height;
+	bool _focusable;
+	bool _clickable;
 	FrameType _frame_type;
 	vector<Control*> _children;
 	Color _background, _foreground;
-	bool _focusable;
-	bool _clickable;
 
 public:
 	Control();
@@ -42,10 +41,10 @@ public:
 	
 	//virtual void draw(Graphics& g, int x, int y, size_t z);
 	virtual void draw(Graphics& g);
-	virtual void mousePressed(int x, int y, bool isLeft) {};
+	virtual bool mousePressed(int x, int y, bool isLeft) { return true; };
 	virtual void keyDown(int keyCode, char charecter) {};
-	virtual short getLeft() { return left; };
-	virtual short getTop() { return top; };
+	virtual short getLeft() { return _left; };
+	virtual short getTop() { return _top; };
 	virtual void getAllControls(vector<Control*>* controls);
 	virtual bool canGetFocus();
 	virtual bool canBeClicked();
@@ -57,9 +56,11 @@ public:
 	vector<Control*> getChildren();
 	void setFrameType(FrameType frame_type);
 	void setColor(Color bg, Color fg);
-
-	void setPosition(short x, short y);
-	void setDimension(short w, short h);
+	void setTop(short x);
+	void setLeft(short y);
+	void setWidth(short x);
+	void setHeight(short y);
+	void add(Control* child);
 
 
 	~Control();

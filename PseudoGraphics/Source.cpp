@@ -3,8 +3,6 @@
 #include "ControlFactory.h"
 #include "EventEngine.h"
 
-#define DEBUG_ON		(0)
-
 int main(int argc, char** argv)
 {
 	//create our controls factory:
@@ -12,17 +10,29 @@ int main(int argc, char** argv)
 
 	//create some controls with out 'enum ControlProduct' helper:
 	Control& label = factory.create(LABEL);
-	
 
-	Control& btn = Button("IM A BUTTON");
-	
+	Panel p;
+	p.setColor(Color::Purple, Color::Orange);
+	p.setLeft(10);
+	p.setTop(10);
+	p.setWidth(50);
+	p.setHeight(20);
+	p.setFrameType(DOUBLE_SOLID);
+
+	Button b("KING JAMES");
+	b.setLeft(1);
+	b.setTop(1);
+	b.setColor(Color::Blue, Color::Green);
+	p.add(&b);
+
+	Label l("IM A LABEL");
+	l.setColor(Color::Cyan, Color::Red);
+	l.setLeft(10);
+	l.setTop(10);
+	p.add(&l);
+
+	Control& panel = p;
 	EventEngine e;
-	e.run(btn);
+	e.run(panel);
 
-
-
-	//delete debug file if turned off
-	if (!DEBUG_ON) {
-		remove(DBG_FILE_NAME);
-	}
 }

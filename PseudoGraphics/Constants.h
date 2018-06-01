@@ -3,9 +3,12 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#define DEBUG_ON (0)
+
 //special char set:
 //single line
-#define BORDER_OFFSET (1)
+static short BORDER_OFFSET = 1;
+
 #define SINGLE_TOP_LEFT_CORNER '\xDA'
 #define SINGLE_TOP_RIGHT_CORNER '\xBF'
 #define SINGLE_BTM_LEFT_CORNER '\xC0'

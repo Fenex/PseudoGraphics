@@ -25,8 +25,8 @@ Label::getValue()
 void
 Label::setValue(string value)
 {
-	_dim_x = value.size() + BORDER_OFFSET;
-	_dim_y = BORDER_OFFSET + 1;
+	_width = value.size() + BORDER_OFFSET;
+	_height = BORDER_OFFSET + 1;
 
   this->value = value;
 }
@@ -43,9 +43,9 @@ Label::draw(Graphics& g, int x, int y, size_t z)
 void
 Label::draw(Graphics& g) {
 	Control::draw(g);
-	g.moveTo(left+1, top+1);
+	g.moveTo(_left+1, _top+1);
 	g.write(value);
-	g.moveTo(left, top);
+	g.moveTo(_left, _top);
 }
 
 bool

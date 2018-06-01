@@ -24,11 +24,14 @@ Button::~Button()
 {
 }
 
-//todo:
-//bool
-//Button::mousePressed()[
-//
-//]
+
+bool
+Button::mousePressed(int x, int y, bool isLeft)
+{
+	bool result = false;
+	setValue("I've been clicked!");
+	return result;
+}
 
 bool
 Button::myPureFunction()

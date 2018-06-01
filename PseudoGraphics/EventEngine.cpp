@@ -57,7 +57,10 @@ EventEngine::run(Control& control)
 			auto y = coord.Y - control.getTop();
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
-				control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
+				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED))
+				{
+					redraw = true;
+				}
 			}
 			break;
 		}

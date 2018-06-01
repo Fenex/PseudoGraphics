@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "Button.h"
+#include "Panel.h"
 
 typedef enum {
 	LABEL,
