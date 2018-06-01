@@ -25,6 +25,7 @@ typedef enum {
 
 class Control {
 
+	//todo: hange convension here. underscore_ before var name is only for private members:
 protected:
 	short _left, _top;
 	short _width, _height;

@@ -45,7 +45,9 @@ static short BORDER_OFFSET = 1;
 #define MIN_DIM_Y (3)
 #define DEFAULT_CURSOR_SIZE (50)
 #define DEFAULT_LABEL_STR "RICK AND MORTY"
-#define BORDER_OFFSET (2)
+#define MAX_NUMERIC_VAL (250)
+#define MIN_NUMERIC_VAL (0)
+#define DEF_NUMERIC_VAL "100"
 
 
 //default component colors:
