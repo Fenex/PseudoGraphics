@@ -10,8 +10,8 @@ Label::Label() : Control()
 }
 
 Label::Label(string value) : 
-	Control(), 
-	value(value) {
+	Control()
+{
 	Label::Label();
 	setValue(value);
 }

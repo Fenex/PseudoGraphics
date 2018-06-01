@@ -175,24 +175,57 @@ Control::canGetFocus()
 	return _focusable; 
 }
 
+bool 
+Control::canBeClicked()
+{
+	return _clickable;
+}
+
+
 void 
 Control::getAllControls(vector<Control*>* controls) 
 {
 	controls = &_children;
 }
 
+static bool 
+setXY(short& old_x, short& old_y, short x, short y)
+{
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);
 
-//void 
-//Control::setDimX(short dimX) {
-//	if (dimX >= MIN_DIM_X) {
-//
-//	}
-//	else {
-//
-//	}
-//}
-//
-//void
-//Control::setDimY(short dimY) {
-//
-//}
+	if (x >= MIN_DIM_X && y >= MIN_DIM_Y)
+	{
+		old_x = x;
+		old_y = y;
+		return true;
+	}
+
+	return false;
+
+}
+	
+void 
+Control::setPosition(short x, short y) 
+{
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);
+
+	if (!setXY(left, top, x, y))
+	{
+		debug(PG_DBG_ERROR, "%s: either X or Y values are invalid.", fn);
+	}
+}
+
+void 
+Control::setDimension(short w, short h)
+{
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);
+
+	if (!setXY(_dim_x, _dim_y, w, h))
+	{
+		debug(PG_DBG_ERROR, "%s: either X or Y values are invalid.", fn);
+	}
+
+}

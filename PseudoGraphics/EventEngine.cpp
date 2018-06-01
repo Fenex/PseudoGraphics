@@ -58,7 +58,6 @@ EventEngine::run(Control& control)
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
 				control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
-				
 			}
 			break;
 		}

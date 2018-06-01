@@ -33,6 +33,7 @@ protected:
 	vector<Control*> _children;
 	Color _background, _foreground;
 	bool _focusable;
+	bool _clickable;
 
 public:
 	Control();
@@ -47,6 +48,7 @@ public:
 	virtual short getTop() { return top; };
 	virtual void getAllControls(vector<Control*>* controls);
 	virtual bool canGetFocus();
+	virtual bool canBeClicked();
 	virtual bool myPureFunction() = 0;
 
 	virtual void drawBorder(Graphics& g);
@@ -56,8 +58,8 @@ public:
 	void setFrameType(FrameType frame_type);
 	void setColor(Color bg, Color fg);
 
-	void setDimX(short dimX);
-	void setDimY(short dimY);
+	void setPosition(short x, short y);
+	void setDimension(short w, short h);
 
 
 	~Control();

@@ -4,7 +4,7 @@
 
 
 #include <iostream>
-#include "Label.h"
+#include "Button.h"
 
 typedef enum {
 	LABEL,

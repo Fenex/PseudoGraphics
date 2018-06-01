@@ -16,7 +16,7 @@ ControlsFactory::create(ControlProduct product) {
 		control = new Label;
 		break;
 	case BUTTON:
-		//control = new Button();
+		control = new Button();
 		break;
 	case PANEL:
 		//return new Panel();

@@ -12,12 +12,12 @@ int main(int argc, char** argv)
 
 	//create some controls with out 'enum ControlProduct' helper:
 	Control& label = factory.create(LABEL);
-
 	
 
-	label.setFrameType(SINGLE_SOLID);
+	Control& btn = Button("IM A BUTTON");
+	
 	EventEngine e;
-	e.run(label);
+	e.run(btn);
 
 
 
