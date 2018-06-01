@@ -10,21 +10,24 @@ EventEngine::EventEngine(DWORD input, DWORD output)
 	SetConsoleMode(_console, ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
 }
 
-void EventEngine::run(Control &c)
+void 
+EventEngine::run(Control& control)
 {
-	for (bool redraw = true;;)
+	bool redraw = true;
+
+	while (true)
 	{
-		if (redraw)
-		{
+
+		if (redraw == true) {
+			//init default cursor attributes:
 			_graphics.clearScreen();
 			_graphics.setCursorVisibility(false);
-			for (size_t z = 0; z < 5; ++z)
-			{
-				c.draw(_graphics, 0, 0, z);
-			}	
+
+			//draw EVERY control and child of control on our panel (recursive):
+			control.draw(_graphics);
+			
 			redraw = false;
 		}
-
 		INPUT_RECORD record;
 		DWORD count;
 		ReadConsoleInput(_console, &record, 1, &count);
@@ -32,16 +35,16 @@ void EventEngine::run(Control &c)
 		{
 		case KEY_EVENT:
 		{
-			auto f = Control::getFocus();
-			if (f != nullptr && record.Event.KeyEvent.bKeyDown)
+			auto focused_control = Control::getFocus();
+			if (focused_control != nullptr && record.Event.KeyEvent.bKeyDown)
 			{
 				auto code = record.Event.KeyEvent.wVirtualKeyCode;
 				auto chr = record.Event.KeyEvent.uChar.AsciiChar;
 				if (code == VK_TAB)
-					moveFocus(c, f);
+					moveFocus(control, focused_control);
 				else
-					f->keyDown(code, chr);
-				redraw = true;
+					focused_control->keyDown(code, chr);
+				//redraw = true;
 			}
 			break;
 		}
@@ -49,12 +52,12 @@ void EventEngine::run(Control &c)
 		{
 			auto button = record.Event.MouseEvent.dwButtonState;
 			auto coord = record.Event.MouseEvent.dwMousePosition;
-			auto x = coord.X - c.getLeft();
-			auto y = coord.Y - c.getTop();
+			auto x = coord.X - control.getLeft();
+			auto y = coord.Y - control.getTop();
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
-				c.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
-				redraw = true;
+				control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
+				
 			}
 			break;
 		}
@@ -69,14 +72,21 @@ EventEngine::~EventEngine()
 	SetConsoleMode(_console, _consoleMode);
 }
 
-void EventEngine::moveFocus(Control &main, Control *focused)
+//this function iterates (circular) over the children of the control, looking for the to-be-focused child:
+void 
+EventEngine::moveFocus(Control &main, Control *focused) 
 {
-	vector<Control*> controls;
-	main.getAllControls(&controls);
-	auto it = find(controls.begin(), controls.end(), focused);
+	vector<Control*> controls = main.getChildren();
+	//old: main.getAllControls(&controls);
+
+	//set iterator for the children list:
+	auto iter = find(controls.begin(), controls.end(), focused);
+	
+	//iterate untill iterator == the to-be-focused child:
 	do
-		if (++it == controls.end())
-			it = controls.begin();
-	while (!(*it)->canGetFocus());
-	Control::setFocus(**it);
+		if (++iter == controls.end())
+			iter = controls.begin();
+	while (!(*iter)->canGetFocus());
+
+	Control::setFocus(**iter);
 }

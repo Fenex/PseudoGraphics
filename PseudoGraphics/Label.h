@@ -17,6 +17,7 @@ class Label: public Control
 		string getValue();
 		void setValue(string);
 		void draw(Graphics& g, int x, int y, size_t z);
+		void draw(Graphics& g);
 		bool myPureFunction();
 };
 

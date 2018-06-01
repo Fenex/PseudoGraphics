@@ -15,7 +15,7 @@ class Graphics
 public:
 	Graphics(DWORD stdHandle = STD_OUTPUT_HANDLE);
 	void clearScreen();
-	void moveTo(int x, int y);
+	void moveTo(short x, short y);
 	void setBackground(Color color);
 	void setForeground(Color color);
 	void write(string s);

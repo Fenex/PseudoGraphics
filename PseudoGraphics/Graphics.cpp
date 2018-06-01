@@ -16,12 +16,9 @@ void Graphics::clearScreen()
 	FillConsoleOutputCharacter(_console, L' ', size, { 0, 0 }, &d);
 }
 
-void Graphics::moveTo(int x, int y)
+void Graphics::moveTo(short x, short y)
 {
-	COORD c;
-	c.X = x;
-	c.Y = y;
-	SetConsoleCursorPosition(_console, c);
+	SetConsoleCursorPosition(_console, { x, y });
 }
 
 void Graphics::setBackground(Color color)

@@ -34,6 +34,13 @@ Label::draw(Graphics& g, int x, int y, size_t z)
 
 }
 
+void
+Label::draw(Graphics& g) {
+	g.moveTo(left, top);
+	g.write(value);
+	g.moveTo(left, top);
+}
+
 bool
 Label::myPureFunction() {
 	return false;
