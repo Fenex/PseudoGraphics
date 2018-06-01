@@ -124,6 +124,9 @@ Control::drawBorder(Graphics& g) {
 
 void
 Control::drawChildren(Graphics& g) {
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);
+
 	for each (Control* child in _children) {
 		child->draw(g);
 	}
@@ -149,4 +152,15 @@ Control::drawLine(char open_sym, char mid_sym, char end_sym) {
 vector<Control*> 
 Control::getChildren() {
 	return _children;
+}
+
+void 
+Control::setFrameType(FrameType frame_type) {
+	_frame_type = frame_type;
+}
+
+void 
+Control::setColor(Color bg, Color fg) {
+	_background = bg;
+	_foreground = fg;
 }

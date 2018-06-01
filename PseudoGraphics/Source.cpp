@@ -3,7 +3,7 @@
 #include "ControlFactory.h"
 #include "EventEngine.h"
 
-#define DEBUG_ON		(1)
+#define DEBUG_ON		(0)
 
 int main(int argc, char** argv)
 {
@@ -15,5 +15,11 @@ int main(int argc, char** argv)
 	EventEngine e;
 	e.run(label);
 
+
+
+	//delete debug file if turned off
+	if (!DEBUG_ON) {
+		remove(DBG_FILE_NAME);
+	}
 }
 

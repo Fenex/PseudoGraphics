@@ -28,6 +28,7 @@ EventEngine::run(Control& control)
 			
 			redraw = false;
 		}
+
 		INPUT_RECORD record;
 		DWORD count;
 		ReadConsoleInput(_console, &record, 1, &count);

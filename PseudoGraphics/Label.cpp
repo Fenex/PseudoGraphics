@@ -4,6 +4,8 @@
 Label::Label() : 
 	Control(), 
 	value(DEFAULT_LABEL_STR) {
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);
 
 }
 

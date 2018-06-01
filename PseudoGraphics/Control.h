@@ -52,6 +52,8 @@ public:
 	virtual void drawChildren(Graphics& g);
 	virtual void drawLine(char, char, char);
 	vector<Control*> getChildren();
+	void setFrameType(FrameType frame_type);
+	void setColor(Color bg, Color fg);
 
 	~Control();
 };
