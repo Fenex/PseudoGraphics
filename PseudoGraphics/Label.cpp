@@ -1,18 +1,19 @@
 #include "Label.h"
 
 
-Label::Label() : 
-	Control(), 
-	value(DEFAULT_LABEL_STR) {
+Label::Label() : Control()
+{
 	char* fn = __FUNCTION__;
 	debug(PG_DBG_INFO, "%s: called.", fn);
-
+	setValue(DEFAULT_LABEL_STR);
+	_frame_type = NONE;
 }
 
 Label::Label(string value) : 
 	Control(), 
 	value(value) {
-
+	Label::Label();
+	setValue(value);
 }
 
 string
@@ -24,7 +25,10 @@ Label::getValue()
 void
 Label::setValue(string value)
 {
-    this->value = value;
+	_dim_x = value.size() + BORDER_OFFSET;
+	_dim_y = BORDER_OFFSET + 1;
+
+  this->value = value;
 }
 
 
@@ -38,7 +42,8 @@ Label::draw(Graphics& g, int x, int y, size_t z)
 
 void
 Label::draw(Graphics& g) {
-	g.moveTo(left, top);
+	Control::draw(g);
+	g.moveTo(left+1, top+1);
 	g.write(value);
 	g.moveTo(left, top);
 }

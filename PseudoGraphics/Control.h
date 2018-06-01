@@ -32,6 +32,7 @@ protected:
 	FrameType _frame_type;
 	vector<Control*> _children;
 	Color _background, _foreground;
+	bool _focusable;
 
 public:
 	Control();
@@ -42,10 +43,10 @@ public:
 	virtual void draw(Graphics& g);
 	virtual void mousePressed(int x, int y, bool isLeft) {};
 	virtual void keyDown(int keyCode, char charecter) {};
-	virtual short getLeft() { return 0; };
-	virtual short getTop() { return 0; };
-	virtual void getAllControls(vector<Control*>* controls) {};
-	virtual bool canGetFocus() { return FALSE; };
+	virtual short getLeft() { return left; };
+	virtual short getTop() { return top; };
+	virtual void getAllControls(vector<Control*>* controls);
+	virtual bool canGetFocus();
 	virtual bool myPureFunction() = 0;
 
 	virtual void drawBorder(Graphics& g);
@@ -54,6 +55,10 @@ public:
 	vector<Control*> getChildren();
 	void setFrameType(FrameType frame_type);
 	void setColor(Color bg, Color fg);
+
+	void setDimX(short dimX);
+	void setDimY(short dimY);
+
 
 	~Control();
 };

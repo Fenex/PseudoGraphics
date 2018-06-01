@@ -12,6 +12,10 @@ int main(int argc, char** argv)
 
 	//create some controls with out 'enum ControlProduct' helper:
 	Control& label = factory.create(LABEL);
+
+	
+
+	label.setFrameType(SINGLE_SOLID);
 	EventEngine e;
 	e.run(label);
 
@@ -22,4 +26,3 @@ int main(int argc, char** argv)
 		remove(DBG_FILE_NAME);
 	}
 }
-

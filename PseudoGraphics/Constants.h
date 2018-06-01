@@ -41,7 +41,9 @@
 #define MIN_DIM_X (3)
 #define MIN_DIM_Y (3)
 #define DEFAULT_CURSOR_SIZE (50)
-#define DEFAULT_LABEL_STR "Label"
+#define DEFAULT_LABEL_STR "RICK AND MORTY"
+#define BORDER_OFFSET (2)
+
 
 //default component colors:
 #define DEF_PANEL_COLOR (5)

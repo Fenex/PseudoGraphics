@@ -45,8 +45,9 @@ debug(DebugLevel lvl, const char *format, ...) {
 	file.close();
 }
 
-Control::Control()
+Control::Control() : _focusable(true), left(0), top(0), _dim_x(0), _dim_y(0)
 {
+
 }
 
 
@@ -150,17 +151,48 @@ Control::drawLine(char open_sym, char mid_sym, char end_sym) {
 
 
 vector<Control*> 
-Control::getChildren() {
+Control::getChildren() 
+{
 	return _children;
 }
 
 void 
-Control::setFrameType(FrameType frame_type) {
+Control::setFrameType(FrameType frame_type) 
+{
 	_frame_type = frame_type;
 }
 
 void 
-Control::setColor(Color bg, Color fg) {
+Control::setColor(Color bg, Color fg) 
+{
 	_background = bg;
 	_foreground = fg;
 }
+
+bool 
+Control::canGetFocus() 
+{ 
+	return _focusable; 
+}
+
+void 
+Control::getAllControls(vector<Control*>* controls) 
+{
+	controls = &_children;
+}
+
+
+//void 
+//Control::setDimX(short dimX) {
+//	if (dimX >= MIN_DIM_X) {
+//
+//	}
+//	else {
+//
+//	}
+//}
+//
+//void
+//Control::setDimY(short dimY) {
+//
+//}
