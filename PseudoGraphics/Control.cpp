@@ -26,6 +26,7 @@ dbgToString(DebugLevel lvl) {
 void
 debug(DebugLevel lvl, const char *format, ...) {
 	
+	static bool isEmpty = true;
 	//change DEBUG_ON to 1 on Constants.h to turn debug on
 	if (!DEBUG_ON)
 		return;
@@ -34,7 +35,15 @@ debug(DebugLevel lvl, const char *format, ...) {
 	time_t now = time(0);
 	tm *ltm = localtime(&now);
 
-	file.open(DBG_FILE_NAME, std::ios_base::app);
+	if (isEmpty)
+	{
+		file.open(DBG_FILE_NAME);
+		isEmpty = false;
+	}
+	else
+	{
+		file.open(DBG_FILE_NAME, std::ios_base::app);
+	}
 	char buffer[512] = { 0 };
 
 
@@ -78,12 +87,12 @@ Control::drawBorder(Graphics& g) {
 	g.moveTo(_left, _top);
 
 	if (_frame_type == NONE) {
-		for (int i = 0; i < this->_height; ++i) {
-			//draw empty lines as border
-			drawLine(SPACE, SPACE, SPACE);
-			g.moveTo(_left, _top+ (short)i + 1);
+		//for (int i = 0; i < this->_height; ++i) {
+		//	//draw empty lines as border
+		//	drawLine(SPACE, SPACE, SPACE);
+		//	g.moveTo(_left, _top+ (short)i + 1);
 
-		}
+		//}
 		return;
 	}
 
@@ -123,8 +132,6 @@ Control::drawChildren(Graphics& g) {
 
 void
 Control::drawLine(char open_sym, char mid_sym, char end_sym) {
-	char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);
 
 	for (short i = 0; i < _width - 1; i++) {
 		if (i == 0) {
@@ -200,9 +207,7 @@ isInValidRange(short val) {
 void 
 Control::setTop(short y)
 {
-	//if(isInValidRange(y))
-	//	_top = y;
-
+	//todo: validate range of value
 	short child_base_y;
 	short diff_y = abs(y - _top);
 
@@ -218,9 +223,7 @@ Control::setTop(short y)
 void 
 Control::setLeft(short x)
 {
-	//if (isInValidRange(x))
-	//	_left = x;
-
+	//todo: validate range of value
 	short child_base_x;
 	short diff_x = abs(x - _left);
 
@@ -261,7 +264,31 @@ Control::add(Control* child)
 		_children.push_back(child);
 	}
 	else {
-		debug(PG_DBG_INFO, "%s: trying to add a child which is null.", fn);
+		debug(PG_DBG_ERROR, "%s: trying to add a child which is null.", fn);
 	}
 }
 
+bool 
+Control::mousePressed(int x, int y, bool isLeft) {
+	const char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);
+	
+	if (isLeft)
+	{
+		for each (Control* child in _children)
+		{
+			debug(PG_DBG_INFO, "%s: child={%d,%d}.", fn, child->_left, child->_top);
+
+			if (isInside(x, y, child->_left, child->_top, child->_width, child->_height))
+			{
+				debug(PG_DBG_INFO, "%s: found the clicked child.", fn);
+				return child->mousePressed(x, y, isLeft);
+			}
+		}
+	}
+	else 
+	{
+		debug(PG_DBG_ERROR, "%s: right click is not supported right now.", fn);
+	}
+	return false;
+}

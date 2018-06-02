@@ -42,7 +42,7 @@ public:
 	
 	//virtual void draw(Graphics& g, int x, int y, size_t z);
 	virtual void draw(Graphics& g);
-	virtual bool mousePressed(int x, int y, bool isLeft) { return true; };
+	virtual bool mousePressed(int x, int y, bool isLeft);
 	virtual void keyDown(int keyCode, char charecter) {};
 	virtual short getLeft() { return _left; };
 	virtual short getTop() { return _top; };

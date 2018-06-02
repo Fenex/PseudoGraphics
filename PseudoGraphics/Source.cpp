@@ -31,8 +31,15 @@ int main(int argc, char** argv)
 	l.setTop(10);
 	p.add(&l);
 
+	Label l2("IM RICK JAMES");
+	l2.setColor(Color::Black, Color::Orange);
+	l2.setLeft(12);
+	l2.setTop(15);
+	p.add(&l2);
+
 	Control& panel = p;
 	EventEngine e;
 	e.run(panel);
+
 
 }

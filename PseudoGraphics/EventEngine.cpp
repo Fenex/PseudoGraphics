@@ -13,6 +13,9 @@ EventEngine::EventEngine(DWORD input, DWORD output)
 void 
 EventEngine::run(Control& control)
 {
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);
+
 	bool redraw = true;
 
 	while (true)
@@ -42,9 +45,15 @@ EventEngine::run(Control& control)
 				auto code = record.Event.KeyEvent.wVirtualKeyCode;
 				auto chr = record.Event.KeyEvent.uChar.AsciiChar;
 				if (code == VK_TAB)
+				{
+					debug(PG_DBG_INFO, "%s: KEY_EVENT: TAB.", fn);
 					moveFocus(control, focused_control);
+				}
 				else
+				{
+					debug(PG_DBG_INFO, "%s: KEY_EVENT: Ascii Char.", fn);
 					focused_control->keyDown(code, chr);
+				}
 				//redraw = true;
 			}
 			break;
@@ -53,12 +62,14 @@ EventEngine::run(Control& control)
 		{
 			auto button = record.Event.MouseEvent.dwButtonState;
 			auto coord = record.Event.MouseEvent.dwMousePosition;
-			auto x = coord.X - control.getLeft();
-			auto y = coord.Y - control.getTop();
+			auto x = coord.X;
+			auto y = coord.Y;
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
+				debug(PG_DBG_INFO, "%s: MOUSE_EVENT: at {%d,%d} isLeftClick=%d.", fn, x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
 				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED))
 				{
+					debug(PG_DBG_INFO, "%s: redraw.", fn);
 					redraw = true;
 				}
 			}

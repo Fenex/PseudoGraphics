@@ -13,6 +13,7 @@ public:
 	virtual ~Button();
 	virtual bool myPureFunction();
 	bool mousePressed(int x, int y, bool isLeft);
+	void fixDimensions();
 };
 
 #endif // !BUTTON_H

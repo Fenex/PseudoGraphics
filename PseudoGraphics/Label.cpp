@@ -25,8 +25,8 @@ Label::getValue()
 void
 Label::setValue(string value)
 {
-	_width = value.size() + BORDER_OFFSET;
-	_height = BORDER_OFFSET + 1;
+	_width = value.size();
+	_height = 1;
 
   this->value = value;
 }
