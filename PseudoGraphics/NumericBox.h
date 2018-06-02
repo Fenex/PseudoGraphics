@@ -10,7 +10,7 @@ public:
 	NumericBox();
 	NumericBox(int max, int min, string value);
 	~NumericBox();
-	bool myPureFunction() {};
+	bool myPureFunction() { return false; }
 	void inc();
 	void dec();
 };

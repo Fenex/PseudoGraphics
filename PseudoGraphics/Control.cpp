@@ -157,6 +157,18 @@ Control::setColor(Color bg, Color fg)
 	_foreground = fg;
 }
 
+short 
+Control::getWidth()
+{
+	return _width;
+}
+
+short 
+Control::getHeight()
+{
+	return _height;
+}
+
 bool 
 Control::canGetFocus() 
 { 

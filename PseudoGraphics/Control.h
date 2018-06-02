@@ -57,6 +57,8 @@ public:
 	vector<Control*> getChildren();
 	void setFrameType(FrameType frame_type);
 	void setColor(Color bg, Color fg);
+	short getWidth();
+	short getHeight();
 	void setTop(short x);
 	void setLeft(short y);
 	void setWidth(short x);
