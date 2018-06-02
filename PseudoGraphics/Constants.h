@@ -47,7 +47,7 @@ static short BORDER_OFFSET = 1;
 #define DEFAULT_LABEL_STR "RICK AND MORTY"
 #define MAX_NUMERIC_VAL (250)
 #define MIN_NUMERIC_VAL (0)
-#define DEF_NUMERIC_VAL "100"
+#define DEF_NUMERIC_VAL 100
 
 
 //default component colors:

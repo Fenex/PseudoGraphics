@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 	p.setHeight(20);
 	p.setFrameType(DOUBLE_SOLID);
 
-	Button b("KING JAMES");
+	/*Button b("KING JAMES");
 	b.setLeft(1);
 	b.setTop(1);
 	b.setColor(Color::Blue, Color::Green);
@@ -35,11 +35,17 @@ int main(int argc, char** argv)
 	l2.setColor(Color::Black, Color::Orange);
 	l2.setLeft(12);
 	l2.setTop(15);
-	p.add(&l2);
+	p.add(&l2);*/
 
 	Control& panel = p;
+	
+	NumericBox numBo;
+	numBo.setLeft(10);
+	numBo.setTop(10);
+	panel.add(&numBo);
+
 	EventEngine e;
-	e.run(p);
+	e.run(panel);
 
 
 }
