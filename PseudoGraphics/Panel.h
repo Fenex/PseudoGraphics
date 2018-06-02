@@ -10,7 +10,6 @@ public:
 	Panel();
 	virtual ~Panel();
 	bool myPureFunction();
-	bool mousePressed(int, int, bool);
 };
 
 

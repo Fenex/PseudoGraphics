@@ -3,7 +3,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define DEBUG_ON (0)
+#define DEBUG_ON (1)
 
 //special char set:
 //single line
@@ -40,7 +40,7 @@ static short BORDER_OFFSET = 1;
 #define POS_DEF_X (5)
 #define POS_DEF_Y (5)
 #define DIM_DEF_W (5)
-#define DIM_DEF_H (5)
+#define DIM_DEF_H (3)
 #define MIN_DIM_X (3)
 #define MIN_DIM_Y (3)
 #define DEFAULT_CURSOR_SIZE (50)
