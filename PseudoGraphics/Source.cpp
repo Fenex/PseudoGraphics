@@ -33,6 +33,6 @@ int main(int argc, char** argv)
 
 	Control& panel = p;
 	EventEngine e;
-	e.run(panel);
+	e.run(p);
 
 }

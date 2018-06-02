@@ -20,7 +20,7 @@ Panel::myPureFunction()
 }
 
 bool
-Panel::mousePressed(int x, int y, int isLeft) 
+Panel::mousePressed(int x, int y, bool isLeft) 
 {
 	vector<Control*> children = this->getChildren();
 	for each(Control* cp in children) {
