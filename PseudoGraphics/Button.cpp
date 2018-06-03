@@ -40,9 +40,15 @@ Button::mousePressed(int x, int y, bool isLeft)
 
 	debug(PG_DBG_INFO, "%s: called.", fn);
 	debug(PG_DBG_INFO, "%s: x=%d, y=%d, isLeft=%d.", fn, x, y, isLeft);
-
+	
 	if (isLeft) {
-		setColor(_foreground, _background);
+		//if button refrences another component
+		if ( _other != NULL) {
+			_other->mousePressed(x, y, true);
+		}
+		else {
+			setColor(_foreground, _background);
+		}
 		result = true;
 	}
 

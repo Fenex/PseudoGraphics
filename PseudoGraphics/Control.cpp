@@ -59,7 +59,7 @@ debug(DebugLevel lvl, const char *format, ...) {
 	file.close();
 }
 
-Control::Control() : _focusable(true), _left(0), _top(0), _width(0), _height(0) {}
+Control::Control() : _focusable(true), _left(0), _top(0), _width(0), _height(0), _other(NULL) {}
 
 
 Control::~Control() {}
@@ -251,6 +251,13 @@ Control::setHeight(short y)
 }
 
 void 
+Control::setOtherComponent(Control * other)
+{
+	_other = other;
+}
+
+
+void 
 Control::add(Control* child)
 {
 	const char* fn = __FUNCTION__;
@@ -292,3 +299,4 @@ Control::mousePressed(int x, int y, bool isLeft) {
 	}
 	return false;
 }
+

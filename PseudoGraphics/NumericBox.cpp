@@ -5,8 +5,9 @@ NumericBox::NumericBox(int max, int min, int value)
 	
 	_max = max;
 	_min = min;
+	_value = value;
 	_width = 6 + to_string(value).size();	// labelSize + 2*buttonSize
-	_height = 3;
+	_height = 3;	//button height
 	initChildren(value);
 	
 	_focusable = false;
@@ -16,6 +17,7 @@ NumericBox::NumericBox(int max, int min, int value)
 NumericBox::~NumericBox()
 {
 }
+
 
 void
 NumericBox::initChildren(int val)
@@ -40,8 +42,41 @@ NumericBox::initChildren(int val)
 	plusButton->setColor(Color::Black, Color::Orange);
 
 }
+
+bool
+NumericBox::mousePressed(int x, int y, bool isLeft)
+{
+	//check if clicked minus or plus Button
+	if (isInside(x, y, minButton->getLeft(), minButton->getTop(), minButton->getWidth(), minButton->getHeight())) {
+		dec();
+		return true;
+	}
+	else if (isInside(x, y, plusButton->getLeft(), plusButton->getTop(), plusButton->getWidth(), plusButton->getHeight())) {
+		inc();
+		return true;
+	}
+	return false;
+}
+
+void
+NumericBox::inc()
+{
+	if ( _value + 1 <= _max) {
+		numericLabel->setValue(to_string(++_value));
+	}
+}
+
+void
+NumericBox::dec()
+{
+	if (_value - 1 >= _min) {
+		numericLabel->setValue(to_string(--_value));
+	}
+	
+}
+
 void
 NumericBox::draw(Graphics& g)
 {
-	Control::draw(g);
+	Control::drawChildren(g);
 }

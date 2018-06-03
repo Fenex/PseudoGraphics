@@ -335,3 +335,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+PseudoGraphics/debug.txt
+PseudoGraphics/PseudoGraphics.vcxproj
