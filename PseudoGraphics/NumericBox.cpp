@@ -6,7 +6,7 @@ NumericBox::NumericBox(int max, int min, int value)
 	_max = max;
 	_min = min;
 	_value = value;
-	_width = 6 + to_string(value).size();	// labelSize + 2*buttonSize
+	_width = 6 + to_string(value).size() + 2;	// 2*buttonSize + labelSize + 2*space
 	_height = 3;	//button height
 	initChildren(value);
 	
@@ -78,5 +78,5 @@ NumericBox::dec()
 void
 NumericBox::draw(Graphics& g)
 {
-	Control::drawChildren(g);
+	Control::draw(g);
 }
