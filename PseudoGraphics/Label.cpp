@@ -22,6 +22,7 @@ Label::getValue()
     return this->value;
 }
 
+//TODO: need to update setValue logic to make it update it's frame
 void
 Label::setValue(string value)
 {

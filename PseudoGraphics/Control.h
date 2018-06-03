@@ -32,7 +32,7 @@ protected:
 	bool _focusable;
 	bool _clickable;
 	FrameType _frame_type;
-	Control *_other;	//enable a component refrence another by setting a pointer to if. default is NULL
+	Control *_other;	//enable a component to refrence another by setting a pointer to it using setterd. default is NULL
 	vector<Control*> _children;
 	Color _background, _foreground;
 

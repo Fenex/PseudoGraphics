@@ -28,7 +28,11 @@ Button::~Button()
 void
 Button::fixDimensions()
 {
+	char* fn = __FUNCTION__;
 	_width = getValue().size() + BORDER_OFFSET + 1;
+
+	debug(PG_DBG_INFO, "%s: called.", fn);
+	debug(PG_DBG_INFO, "%d: width %s: string", _width, getValue().c_str());
 }
 
 

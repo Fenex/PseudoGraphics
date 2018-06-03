@@ -17,6 +17,7 @@ public:
 	void draw(Graphics&);
 	bool myPureFunction() { return false; }
 	virtual bool mousePressed(int x, int y, bool isLeft);
+	int getValue() { return _value; }
 
 };
 

@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "Panel.h"
 #include "NumericBox.h"
+#include "MessageBox.h"
 
 typedef enum {
 	LABEL,

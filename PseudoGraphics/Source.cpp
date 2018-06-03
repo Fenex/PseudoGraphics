@@ -12,40 +12,47 @@ int main(int argc, char** argv)
 	Control& label = factory.create(LABEL);
 
 	Panel p;
+	Control& panel = p;
 	p.setColor(Color::Purple, Color::Orange);
 	p.setLeft(10);
 	p.setTop(10);
 	p.setWidth(50);
-	p.setHeight(20);
+	p.setHeight(30);
 	p.setFrameType(DOUBLE_SOLID);
 
-	/*Button b("KING JAMES");
+	Button b("KING JAMES");
 	b.setLeft(1);
 	b.setTop(1);
 	b.setColor(Color::Blue, Color::Green);
 	p.add(&b);
+	//
+	//Label l("IM A LABEL");
+	//l.setColor(Color::Cyan, Color::Red);
+	//l.setLeft(10);
+	//l.setTop(10);
+	//p.add(&l);
 
-	Label l("IM A LABEL");
-	l.setColor(Color::Cyan, Color::Red);
-	l.setLeft(10);
-	l.setTop(10);
-	p.add(&l);
+	//Label l2("IM RICK JAMES");
+	//l2.setColor(Color::Black, Color::Orange);
+	//l2.setLeft(12);
+	//l2.setTop(15);
+	//p.add(&l2);
 
-	Label l2("IM RICK JAMES");
-	l2.setColor(Color::Black, Color::Orange);
-	l2.setLeft(12);
-	l2.setTop(15);
-	p.add(&l2);*/
+	//
+	//
+	//NumericBox numBo;
+	//numBo.setLeft(10);
+	//numBo.setTop(10);
+	//panel.add(&numBo);
 
-	Control& panel = p;
+	MyMessageBox msg;
+	msg.setLeft(5);
+	msg.setTop(5);
+	panel.add(&msg);
 	
-	NumericBox numBo;
-	numBo.setLeft(10);
-	numBo.setTop(10);
-	panel.add(&numBo);
 
 	EventEngine e;
-	e.run(panel);
+	e.run(p);
 
 
 }
