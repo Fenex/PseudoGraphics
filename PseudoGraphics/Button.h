@@ -21,7 +21,6 @@ public:
 	virtual ~Button();
 	virtual bool myPureFunction();
 	bool mousePressed(int x, int y, bool isLeft);
-	void setOnButtonClicked(OnButtonClicked);
 	void fixDimensions();
 };
 
