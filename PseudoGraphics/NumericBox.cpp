@@ -6,8 +6,8 @@ NumericBox::NumericBox(int max, int min, int value)
 	_max = max;
 	_min = min;
 	_value = value;
-	_width = 6 + to_string(value).size() + 2;	// 2*buttonSize + labelSize + 2*space
-	_height = 3;	//button height
+	_width = 2*ONE_CHAR_BUTTON_WIDTH + to_string(value).size() + NUMERIC_BOX_LABEL_SPACE_MARGIN;	// accomodates box's 2 buttons, label and spaces
+	_height = ONE_CHAR_BUTTON_HEIGHT;	
 	initChildren(value);
 	
 	_focusable = false;
@@ -32,12 +32,12 @@ NumericBox::initChildren(int val)
 	minButton->setTop(_top);
 	minButton->setColor(Color::Black, Color::Orange);
 
-	numericLabel->setLeft(_left + 3);
+	numericLabel->setLeft(_left + ONE_CHAR_BUTTON_WIDTH);
 	numericLabel->setTop(_top);
-	numericLabel->setHeight(3);
+	numericLabel->setHeight(ONE_CHAR_BUTTON_WIDTH);
 	numericLabel->setColor(Color::Black, Color::Orange);
 
-	plusButton->setLeft(numericLabel->getLeft() + numericLabel->getWidth() + 2);
+	plusButton->setLeft(numericLabel->getLeft() + numericLabel->getWidth() + NUMERIC_BOX_LABEL_SPACE_MARGIN);
 	plusButton->setTop(_top);
 	plusButton->setColor(Color::Black, Color::Orange);
 

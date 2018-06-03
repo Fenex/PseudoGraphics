@@ -43,6 +43,9 @@ static short BORDER_OFFSET = 1;
 #define DIM_DEF_H (3)
 #define MIN_DIM_X (3)
 #define MIN_DIM_Y (3)
+#define ONE_CHAR_BUTTON_WIDTH (3)
+#define ONE_CHAR_BUTTON_HEIGHT (3)
+#define NUMERIC_BOX_LABEL_SPACE_MARGIN (2)
 #define DEFAULT_CURSOR_SIZE (50)
 #define DEFAULT_LABEL_STR "RICK AND MORTY"
 #define MAX_NUMERIC_VAL (101)
