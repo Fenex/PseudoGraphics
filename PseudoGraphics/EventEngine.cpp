@@ -55,7 +55,7 @@ EventEngine::run(Control& control)
 
 	//set 1st child as focused by default
 	setFirstFocusableChild(control);
-
+	_graphics.setCursorVisibility(false);
 
 	while (true)
 	{
@@ -66,7 +66,7 @@ EventEngine::run(Control& control)
 
 			//draw EVERY control and child of control on our panel (recursive):
 			control.draw(_graphics);
-			_graphics.setCursorVisibility(false);
+			
 			redraw = false;
 		}
 
@@ -84,6 +84,9 @@ EventEngine::run(Control& control)
 			//if any TextBox is focused, show cursor.
 			if (isATextBox(focused_control)) {
 				_graphics.setCursorVisibility(true);
+			}
+			else {
+				_graphics.setCursorVisibility(false);
 			}
 			if (focused_control != nullptr && record.Event.KeyEvent.bKeyDown)
 			{

@@ -43,7 +43,6 @@ TextBox::mousePressed(int x, int y, bool isLeft)
 	//1. pressing inside
 	g.moveTo(_left + 1, _top + 1);
 
-
 	return true;
 }
 
