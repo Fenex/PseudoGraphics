@@ -33,6 +33,7 @@ protected:
 	bool _focusable;
 	bool _clickable;
 	FrameType _frame_type;
+	Control *_other;	//enable a component to refrence another by setting a pointer to it using setterd. default is NULL
 	vector<Control*> _children;
 	Color _background, _foreground;
 	
@@ -65,6 +66,7 @@ public:
 	void setLeft(short y);
 	void setWidth(short x);
 	void setHeight(short y);
+	void setOtherComponent(Control *other);
 	void add(Control* child);
 	void setClickable(bool clickable);
 	void setFocusable(bool focusable);

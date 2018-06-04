@@ -12,11 +12,12 @@ int main(int argc, char** argv)
 	Control& label = factory.create(LABEL);
 
 	Panel p;
+	Control& panel = p;
 	p.setColor(Color::Purple, Color::Orange);
 	p.setLeft(10);
 	p.setTop(10);
 	p.setWidth(50);
-	p.setHeight(20);
+	p.setHeight(30);
 	p.setFrameType(DOUBLE_SOLID);
 
 	Button b("KING JAMES");
@@ -41,7 +42,6 @@ int main(int argc, char** argv)
 	tb.setColor(Color::Black, Color::White);
 	p.add(&tb);
 
-	Control& panel = p;
 	EventEngine e;
 	e.run(p);
 

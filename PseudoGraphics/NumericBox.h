@@ -1,17 +1,25 @@
 #pragma once
 #include "Button.h"
-class NumericBox : public Button
+class NumericBox : public Control
 {
 private:
 	int _max, _min;
-	string _value;
+	Button *minButton, *plusButton;
+	Label* numericLabel;
+	int _value;
 
-public:
-	NumericBox();
-	NumericBox(int max, int min, string value);
-	~NumericBox();
-	bool myPureFunction() { return false; }
+	void initChildren(int val);
 	void inc();
 	void dec();
+public:
+	NumericBox(int max = MAX_NUMERIC_VAL, int min = MIN_NUMERIC_VAL, int value = DEF_NUMERIC_VAL);
+	~NumericBox();
+	void draw(Graphics&);
+	bool myPureFunction() { return false; }
+	virtual bool mousePressed(int x, int y, bool isLeft);
+	int getValue() { return _value; }
+
 };
+
+
 
