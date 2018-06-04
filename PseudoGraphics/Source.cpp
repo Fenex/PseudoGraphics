@@ -37,6 +37,10 @@ int main(int argc, char** argv)
 	l2.setTop(15);
 	p.add(&l2);
 
+	TextBox tb(28, 8, 12, 5);
+	tb.setColor(Color::Black, Color::White);
+	p.add(&tb);
+
 	Control& panel = p;
 	EventEngine e;
 	e.run(p);

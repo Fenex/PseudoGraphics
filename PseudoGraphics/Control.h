@@ -25,6 +25,7 @@ typedef enum {
 
 class Control {
 
+	static Control* _focused_control;
 	//todo: hange convension here. underscore_ before var name is only for private members:
 protected:
 	short _left, _top;
@@ -34,11 +35,12 @@ protected:
 	FrameType _frame_type;
 	vector<Control*> _children;
 	Color _background, _foreground;
+	
 
 public:
 	Control();
-	static Control* getFocus() { return NULL; };
-	static void setFocus(Control& control) {};
+	static Control* getFocus();
+	static void setFocus(Control& control);
 	
 	//virtual void draw(Graphics& g, int x, int y, size_t z);
 	virtual void draw(Graphics& g);
@@ -64,6 +66,8 @@ public:
 	void setWidth(short x);
 	void setHeight(short y);
 	void add(Control* child);
+	void setClickable(bool clickable);
+	void setFocusable(bool focusable);
 
 
 	~Control();

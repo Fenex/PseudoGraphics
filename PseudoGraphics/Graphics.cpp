@@ -100,3 +100,9 @@ bool isInside(int x, int y, int left, int top, int width, int height)
 	y -= top;
 	return x >= 0 && y >= 0 && x < width && y < height;
 }
+
+HANDLE&
+Graphics::getConsole()
+{
+	return _console;
+}
