@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 	p.setLeft(10);
 	p.setTop(10);
 	p.setWidth(50);
-	p.setHeight(30);
+	p.setHeight(80);
 	p.setFrameType(DOUBLE_SOLID);
 
 	Button b("KING JAMES");
@@ -37,6 +37,18 @@ int main(int argc, char** argv)
 	l2.setLeft(12);
 	l2.setTop(15);
 	p.add(&l2);
+
+	NumericBox numBo;
+	numBo.setLeft(30);
+	numBo.setTop(20);
+	p.add(&numBo);
+
+	string s("this is a message box");
+	
+	MyMessageBox msg(s, s);
+	msg.setLeft(10);
+	msg.setTop(30);
+	p.add(&msg);
 
 	TextBox tb(28, 8, 12, 5);
 	tb.setColor(Color::Black, Color::White);

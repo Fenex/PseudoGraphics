@@ -106,3 +106,16 @@ Graphics::getConsole()
 {
 	return _console;
 }
+
+
+COORD
+Graphics::GetConsoleCursorPosition() {
+	CONSOLE_SCREEN_BUFFER_INFO cbsi;
+	if (GetConsoleScreenBufferInfo(_console, &cbsi)) {
+		return cbsi.dwCursorPosition;
+	}
+	else {
+		// The function failed. Call GetLastError() for details.
+		return{ 0, 0 };
+	}
+}

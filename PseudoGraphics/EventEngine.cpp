@@ -69,8 +69,19 @@ EventEngine::run(Control& control)
 			
 			redraw = false;
 		}
+		
 
-
+		auto focused_control = Control::getFocus();
+		//if any TextBox is focused, show cursor and set it to the last coord it was on:
+		if (isATextBox(focused_control)) {
+			_graphics.setCursorVisibility(true);
+			_graphics.moveTo(
+				static_cast<TextBox*>(focused_control)->getBoxCursorX(),
+				static_cast<TextBox*>(focused_control)->getBoxCursorY());
+		}
+		else {
+			_graphics.setCursorVisibility(false);
+		}
 
 		INPUT_RECORD record;
 		DWORD count;
@@ -79,15 +90,6 @@ EventEngine::run(Control& control)
 		{
 		case KEY_EVENT:
 		{
-			auto focused_control = Control::getFocus();
-
-			//if any TextBox is focused, show cursor.
-			if (isATextBox(focused_control)) {
-				_graphics.setCursorVisibility(true);
-			}
-			else {
-				_graphics.setCursorVisibility(false);
-			}
 			if (focused_control != nullptr && record.Event.KeyEvent.bKeyDown)
 			{
 				auto code = record.Event.KeyEvent.wVirtualKeyCode;

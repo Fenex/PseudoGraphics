@@ -23,6 +23,7 @@ public:
 	void write(wstring s);
 	void write(int x, int y, wstring s);
 	void setCursorVisibility(bool isVisible);
+	COORD GetConsoleCursorPosition();
 	HANDLE& getConsole();
 
 private:
