@@ -46,8 +46,8 @@ int main(int argc, char** argv)
 	//panel.add(&numBo);
 
 	MyMessageBox msg;
-	msg.setLeft(5);
-	msg.setTop(5);
+	msg.setLeft(20);
+	msg.setTop(20);
 	panel.add(&msg);
 	
 

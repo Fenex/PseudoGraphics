@@ -10,6 +10,8 @@
 #include <fstream>
 #include <iostream>
 
+#define MAX(X, Y) ( (X) > (Y) ? (X) : (Y))
+
 using namespace std;
 
 typedef enum {

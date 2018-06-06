@@ -12,6 +12,7 @@ private:
 	string _openPopUpButtonText, _popUpMessage;
 
 	void initButtons();
+	void initSize();
 public:
 	MyMessageBox(string popUpButtonText = DEFAULT_POP_UP_BUTTON_TEXT, string popUpMessage = DEFAULT_POP_UP_MESSAGE);
 	~MyMessageBox();
