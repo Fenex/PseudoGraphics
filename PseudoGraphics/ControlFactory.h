@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Button.h"
 #include "Panel.h"
+#include "TextBox.h"
 #include "NumericBox.h"
 #include "MessageBox.h"
 

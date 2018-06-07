@@ -36,7 +36,7 @@ ControlsFactory::create(ControlProduct product) {
 	case NUMERIC_BOX:
 		//control = new NumericBox();
 	case TEXT_BOX:
-		//control = new TextBox();
+		control = new TextBox();
 		break;
 	default:
 		break;

@@ -1,5 +1,19 @@
 #include "Control.h"
 
+Control* Control::_focused_control = NULL;
+
+
+Control*
+Control::getFocus()
+{
+	return _focused_control;
+}
+
+void
+Control::setFocus(Control& control)
+{
+	_focused_control = &control;
+}
 
 static bool
 isValidPos(const int &size, const int &pos) {
@@ -268,6 +282,7 @@ Control::add(Control* child)
 		//fix (update) child's position in relation to this parent:
 		child->setLeft(_left + child->getLeft());
 		child->setTop(_top + child->getTop());
+
 		_children.push_back(child);
 	}
 	else {
@@ -289,6 +304,7 @@ Control::mousePressed(int x, int y, bool isLeft) {
 			if (isInside(x, y, child->_left, child->_top, child->_width, child->_height))
 			{
 				debug(PG_DBG_INFO, "%s: found the clicked child.", fn);
+				setFocus(*child);
 				return child->mousePressed(x, y, isLeft);
 			}
 		}
@@ -300,3 +316,14 @@ Control::mousePressed(int x, int y, bool isLeft) {
 	return false;
 }
 
+void 
+Control::setClickable(bool clickable)
+{
+	_clickable = clickable;
+}
+
+void 
+Control::setFocusable(bool focusable)
+{
+	_focusable = focusable;
+}

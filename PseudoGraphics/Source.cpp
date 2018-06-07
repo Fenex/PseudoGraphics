@@ -25,6 +25,7 @@ int main(int argc, char** argv)
 	b.setTop(1);
 	b.setColor(Color::Blue, Color::Green);
 	p.add(&b);
+
 	//
 	//Label l("IM A LABEL");
 	//l.setColor(Color::Cyan, Color::Red);
@@ -49,7 +50,7 @@ int main(int argc, char** argv)
 	msg.setLeft(20);
 	msg.setTop(20);
 	panel.add(&msg);
-	
+
 
 	EventEngine e;
 	e.run(p);

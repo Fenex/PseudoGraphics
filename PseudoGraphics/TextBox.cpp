@@ -1,67 +1,52 @@
 #include "TextBox.h"
 
-
-TextBox::TextBox(COORD dim, COORD coord) : _dim(dim), _coord(coord) {
-	char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, fn, "called.");
-
-	_in = GetStdHandle(STD_INPUT_HANDLE);
-	_out = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	if (_in == INVALID_HANDLE_VALUE || _out == INVALID_HANDLE_VALUE) {
-		debug(PG_DBG_ERROR, fn, "one of i/o handles is invalid.");
-	}
+TextBox::TextBox()
+{
+	setClickable(true);
+	setFocusable(true);
+	setFrameType(SINGLE_SOLID);
 }
+
+TextBox::TextBox(short left = 0 , short top = 0, short width = 5, short height = 5) : Control()
+{
+	setLeft(left);
+	setTop(top);
+	setWidth(width);
+	setHeight(height);
+	setClickable(true);
+	setFocusable(true);
+	setFrameType(SINGLE_SOLID);
+}
+
 
 //draw the entire text box
 void
-TextBox::draw() {
+TextBox::draw(Graphics& g) {
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, fn, "called.");
+	Control::draw(g);
+}
+
+bool
+TextBox::mousePressed(int x, int y, bool isLeft)
+{
 	char* fn = __FUNCTION__;
 	debug(PG_DBG_INFO, fn, "called.");
 
-	SetConsoleCursorPosition(_out, _coord);
+	//TODO: SHOW CURSOR (set visible)
+	Graphics g;
+	g.setBackground(_background);
+	g.setForeground(_foreground);
+	g.setCursorVisibility(true);
 
-	innerDraw(SINGLE_TOP_LEFT_CORNER, SINGLE_LINE_HORIZONTAL, SINGLE_TOP_RIGHT_CORNER);
-	SetConsoleCursorPosition(_out, { _coord.X,_coord.Y + 1 });
+	//there could be 3 cases now:
+	//1. pressing inside
+	g.moveTo(_left + 1, _top + 1);
 
-	for (size_t i = 0; i < _dim.Y; i++) {
-		innerDraw(SINGLE_LINE_VERTICAL, SPACE, SINGLE_LINE_VERTICAL);
-		SetConsoleCursorPosition(_out, { _coord.X,_coord.Y + 2 + ((short)i) });
-	}
-
-	innerDraw(SINGLE_BTM_LEFT_CORNER, SINGLE_LINE_HORIZONTAL, SINGLE_BTM_RIGHT_CORNER);
-	SetConsoleCursorPosition(_out, { _coord.X + 1,_coord.Y + 1 });
+	return true;
 }
 
-static COORD
-GetConsoleCursorPosition(HANDLE h_out) {
-	CONSOLE_SCREEN_BUFFER_INFO cbsi;
-	if (GetConsoleScreenBufferInfo(h_out, &cbsi)) {
-		return cbsi.dwCursorPosition;
-	}
-	else {
-		// The function failed. Call GetLastError() for details.
-		return { 0, 0 };
-	}
-}
-
-// draw a single line by open,mid,close symbols:
-void
-TextBox::innerDraw(char open_sym, char mid_sym, char close_sym) {
-	char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, fn, "called.");
-
-	for (size_t i = 0; i < _dim.X - 1; i++) {
-		if (i == 0) {
-			cout << open_sym;
-		}
-		else {
-			cout << mid_sym;
-		}
-	}
-	cout << close_sym;
-}
-
+/*
 // keep user input in borders:
 void
 TextBox::handleInput() {
@@ -114,7 +99,13 @@ TextBox::handleInput() {
 	}
 }
 
-void
-TextBox::setBackground(DWORD bg) {
-	SetConsoleTextAttribute(_out, bg);
+
+
+*/
+
+
+bool 
+TextBox::myPureFunction()
+{
+	return true;
 }

@@ -1,4 +1,5 @@
 #include "EventEngine.h"
+#include "TextBox.h"
 #include <vector>
 #include <algorithm>
 using namespace std;
@@ -10,6 +11,40 @@ EventEngine::EventEngine(DWORD input, DWORD output)
 	SetConsoleMode(_console, ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
 }
 
+static bool
+isATextBox(Control* control) {
+	const char* fn = __FUNCTION__;
+
+	if (dynamic_cast<TextBox*>(control) != NULL)
+	{
+		debug(PG_DBG_INFO, "%s: focused control is a TextBox.", fn);
+		return true;
+	}
+	return false;
+}
+
+static void
+setFirstFocusableChild(Control& control)
+{
+	if (!control.getChildren().empty())
+	{
+		//if every child can't be focused by definition, defaultly set the 1st one as focused to avoid empty references:
+		Control::setFocus(*(control.getChildren().at(0)));
+
+		for (size_t i = 0; i < control.getChildren().size() ; i++)
+		{
+			if (control.getChildren().at(i)->canGetFocus())
+			{
+				Control::setFocus(*(control.getChildren().at(i)));
+				return;
+			}
+		}
+	}
+
+	return;
+	
+}
+
 void 
 EventEngine::run(Control& control)
 {
@@ -18,19 +53,24 @@ EventEngine::run(Control& control)
 
 	bool redraw = true;
 
+	//set 1st child as focused by default
+	setFirstFocusableChild(control);
+	_graphics.setCursorVisibility(false);
+
 	while (true)
 	{
 
 		if (redraw == true) {
 			//init default cursor attributes:
 			_graphics.clearScreen();
-			_graphics.setCursorVisibility(false);
 
 			//draw EVERY control and child of control on our panel (recursive):
 			control.draw(_graphics);
 			
 			redraw = false;
 		}
+
+
 
 		INPUT_RECORD record;
 		DWORD count;
@@ -40,6 +80,14 @@ EventEngine::run(Control& control)
 		case KEY_EVENT:
 		{
 			auto focused_control = Control::getFocus();
+
+			//if any TextBox is focused, show cursor.
+			if (isATextBox(focused_control)) {
+				_graphics.setCursorVisibility(true);
+			}
+			else {
+				_graphics.setCursorVisibility(false);
+			}
 			if (focused_control != nullptr && record.Event.KeyEvent.bKeyDown)
 			{
 				auto code = record.Event.KeyEvent.wVirtualKeyCode;
@@ -54,7 +102,7 @@ EventEngine::run(Control& control)
 					debug(PG_DBG_INFO, "%s: KEY_EVENT: Ascii Char.", fn);
 					focused_control->keyDown(code, chr);
 				}
-				//redraw = true;
+				redraw = true;
 			}
 			break;
 		}
