@@ -4,8 +4,8 @@ class NumericBox : public Control
 {
 private:
 	int _max, _min;
-	Button *minButton, *plusButton;
-	Label* numericLabel;
+	Button *_min_button, *_plus_button;
+	Label* numeric_label;
 	int _value;
 
 	void initChildren(int val);

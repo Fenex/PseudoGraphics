@@ -6,10 +6,10 @@ class MyMessageBox :
 {
 private:
 	bool _isConfirmed;	//indicates whether user confirms pop-up box or not. default is false
-	Button *_confirmButton, *_cancelButton;
-	Button *_openPopUpButton;
-	Label *_popUpMessageLabel;
-	string _openPopUpButtonText, _popUpMessage;
+	Button *_confirm_button, *_cancel_button;
+	Button *_open_pop_up_button;
+	Label *_pop_up_message_label;
+	string _open_pop_up_button_text, _popUpMessage;
 
 	void initButtons();
 	void initSize();
