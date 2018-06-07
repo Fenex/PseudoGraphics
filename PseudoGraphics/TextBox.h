@@ -16,10 +16,10 @@ public:
 
 	bool myPureFunction();
 	void draw(Graphics& g);
-	void drawValue();
-	bool mousePressed(int x, int y, bool isLeft);
-	void keyDown(int keyCode, char character);
-	
+	void drawValue(Graphics& g);
+	bool mousePressed(int x, int y, bool isLeft, Graphics& g);
+	void keyDown(int keyCode, char character, Graphics& g);
+	COORD valueEndPos();
 	short getBoxCursorX();
 	short getBoxCursorY();
 };

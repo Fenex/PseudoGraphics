@@ -37,7 +37,7 @@ Button::fixDimensions()
 
 
 bool
-Button::mousePressed(int x, int y, bool isLeft)
+Button::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
 	char* fn = __FUNCTION__;
 	bool result = false;
@@ -49,7 +49,7 @@ Button::mousePressed(int x, int y, bool isLeft)
 
 		//if button refrences another component
 		if ( _other != NULL) {
-			_other->mousePressed(x, y, true);
+			_other->mousePressed(x, y, true, g);
 		}
 		else {
 			setColor(_foreground, _background);

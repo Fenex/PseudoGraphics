@@ -44,7 +44,7 @@ NumericBox::initChildren(int val)
 }
 
 bool
-NumericBox::mousePressed(int x, int y, bool isLeft)
+NumericBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
 	//check if clicked minus or plus Button
 	if (isInside(x, y, minButton->getLeft(), minButton->getTop(), minButton->getWidth(), minButton->getHeight())) {

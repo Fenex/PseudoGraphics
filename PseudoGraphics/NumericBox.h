@@ -16,7 +16,7 @@ public:
 	~NumericBox();
 	void draw(Graphics&);
 	bool myPureFunction() { return false; }
-	virtual bool mousePressed(int x, int y, bool isLeft);
+	virtual bool mousePressed(int x, int y, bool isLeft, Graphics& g);
 	int getValue() { return _value; }
 
 };

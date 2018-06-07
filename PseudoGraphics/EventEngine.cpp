@@ -17,7 +17,7 @@ isATextBox(Control* control) {
 
 	if (dynamic_cast<TextBox*>(control) != NULL)
 	{
-		debug(PG_DBG_INFO, "%s: focused control is a TextBox.", fn);
+		//debug(PG_DBG_INFO, "%s: focused control is a TextBox.", fn);
 		return true;
 	}
 	return false;
@@ -59,29 +59,27 @@ EventEngine::run(Control& control)
 
 	while (true)
 	{
+			
+		//save last cursor position before we draw. this will help us get to the exact cursor pos
+		//we were if we're writing inside of a text box (e.g):
+		//COORD last_cur_pos = _graphics.GetConsoleCursorPosition();
 
 		if (redraw == true) {
-			//init default cursor attributes:
 			_graphics.clearScreen();
 
-			//draw EVERY control and child of control on our panel (recursive):
+			//draw every control and child of control on our panel (recursive):
 			control.draw(_graphics);
-			
 			redraw = false;
 		}
 		
+		//get back to last cur position:
+		//_graphics.moveTo(last_cur_pos.X, last_cur_pos.Y);
 
 		auto focused_control = Control::getFocus();
+
 		//if any TextBox is focused, show cursor and set it to the last coord it was on:
-		if (isATextBox(focused_control)) {
-			_graphics.setCursorVisibility(true);
-			_graphics.moveTo(
-				static_cast<TextBox*>(focused_control)->getBoxCursorX(),
-				static_cast<TextBox*>(focused_control)->getBoxCursorY());
-		}
-		else {
-			_graphics.setCursorVisibility(false);
-		}
+		bool visible = isATextBox(focused_control) ? true : false;
+		_graphics.setCursorVisibility(visible);
 
 		INPUT_RECORD record;
 		DWORD count;
@@ -98,11 +96,19 @@ EventEngine::run(Control& control)
 				{
 					debug(PG_DBG_INFO, "%s: KEY_EVENT: TAB.", fn);
 					moveFocus(control, focused_control);
+					
+					if (isATextBox(Control::getFocus()))
+					{
+						//if we tab to a TextBox, place cursor at this text box as if it was clicked:
+						_graphics.moveTo(
+							(Control::getFocus())->getLeft() + BORDER_OFFSET,
+							(Control::getFocus())->getTop() + BORDER_OFFSET);
+					}
 				}
 				else
 				{
 					debug(PG_DBG_INFO, "%s: KEY_EVENT: Ascii Char.", fn);
-					focused_control->keyDown(code, chr);
+					focused_control->keyDown(code, chr, _graphics);
 				}
 				redraw = true;
 			}
@@ -117,7 +123,7 @@ EventEngine::run(Control& control)
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
 				debug(PG_DBG_INFO, "%s: MOUSE_EVENT: at {%d,%d} isLeftClick=%d.", fn, x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
-				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED))
+				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED, _graphics))
 				{
 					debug(PG_DBG_INFO, "%s: redraw.", fn);
 					redraw = true;
