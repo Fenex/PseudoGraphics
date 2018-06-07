@@ -2,17 +2,19 @@
 #include "MessageBox.h"
 #include "Button.h"
 
+//TODO:	1. update MessageBox width & height after pop up is closed. 
+//		2. align pop location relative to button
+//		3. set MessageBox width to fit max size of content
 
 MyMessageBox::MyMessageBox(string popUpButtonText, string popUpMessage)
 {
 	char* fn = __FUNCTION__;
 
 	_popUpMessage = popUpMessage;
-	_openPopUpButtonText = popUpButtonText;
-	_height = MESSAGE_BOX_DEFAULT_HEIGHT;
-	_width = NUMERIC_BOX_LABEL_SPACE_MARGIN + _popUpMessage.size();
+	_open_pop_up_button_text = popUpButtonText;
 	_isConfirmed = false;
-	debug(PG_DBG_INFO, "%s: called. %s: popUpButtonString", fn, _openPopUpButtonText.c_str());
+	debug(PG_DBG_INFO, "%s: called. %s: popUpButtonString", fn, _open_pop_up_button_text.c_str());
+	initSize();
 	initButtons();
 }
 
@@ -24,11 +26,18 @@ void
 MyMessageBox::initButtons()
 {
 	char* fn = __FUNCTION__;
-	add(_openPopUpButton = new Button(_openPopUpButtonText));
-	debug(PG_DBG_INFO, "%s: called. %d: width", fn, _openPopUpButton->getWidth());
-	_openPopUpButton->setTop(_top + _height - ONE_CHAR_BUTTON_HEIGHT);
-	_openPopUpButton->setLeft(_left + 0.5*_popUpMessage.size());
-	_openPopUpButton->setColor(Color::Black, Color::Red);
+	add(_open_pop_up_button = new Button(_open_pop_up_button_text));
+	debug(PG_DBG_INFO, "%s: called. %d: width", fn, _open_pop_up_button->getWidth());
+	_open_pop_up_button->setTop(_top);
+	_open_pop_up_button->setLeft(_left);
+	_open_pop_up_button->setColor(Color::Black, Color::Red);
+}
+
+void 
+MyMessageBox::initSize()
+{
+	_height = ONE_CHAR_BUTTON_HEIGHT;
+	_width = NUMERIC_BOX_LABEL_SPACE_MARGIN + _open_pop_up_button_text.size();	// initialy - box is not displayed so initial width is calculated as the width of the button
 }
 
 
@@ -41,16 +50,16 @@ MyMessageBox::draw(Graphics& g)
 bool
 MyMessageBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
-	if (isInside(x, y, _openPopUpButton->getLeft(), _openPopUpButton->getTop(), _openPopUpButton->getWidth(), _openPopUpButton->getHeight())) {
+	if (isInside(x, y, _open_pop_up_button->getLeft(), _open_pop_up_button->getTop(), _open_pop_up_button->getWidth(), _open_pop_up_button->getHeight())) {
 		openPopUp();
 		return true;
 	}
-	else if (isInside(x, y, _confirmButton->getLeft(), _confirmButton->getTop(), _confirmButton->getWidth(), _confirmButton->getHeight())) {
+	else if (isInside(x, y, _confirm_button->getLeft(), _confirm_button->getTop(), _confirm_button->getWidth(), _confirm_button->getHeight())) {
 		_isConfirmed = true;
 		closePopUp();
 		return true;
 	}
-	else if (isInside(x, y, _cancelButton->getLeft(), _cancelButton->getTop(), _cancelButton->getWidth(), _cancelButton->getHeight())) {
+	else if (isInside(x, y, _cancel_button->getLeft(), _cancel_button->getTop(), _cancel_button->getWidth(), _cancel_button->getHeight())) {
 		_isConfirmed = false;
 		closePopUp();
 		return true;
@@ -61,24 +70,29 @@ MyMessageBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 void
 MyMessageBox::openPopUp()
 {
+	//update width & height
+	_height = MESSAGE_BOX_DEFAULT_HEIGHT;
+	_width = MAX(NUMERIC_BOX_LABEL_SPACE_MARGIN + _open_pop_up_button_text.size(), MIN_MSESSAGE_BOX_WIDTH);
+	_top -= _height;
+	_left -= MESSAGE_BOX_LEFT_OFFSET;
 	//display label and buttons
-	add(_popUpMessageLabel = new Label(_popUpMessage));
-	_popUpMessageLabel->setTop(_top);
-	_popUpMessageLabel->setLeft(_left + NUMERIC_BOX_LABEL_SPACE_MARGIN);
-	_popUpMessageLabel->setColor(Color::Black, Color::Red);
-	_popUpMessageLabel->setFrameType(SINGLE_SOLID);
-	_popUpMessageLabel->setWidth(_width);
-	_popUpMessageLabel->setHeight(_height - ONE_CHAR_BUTTON_HEIGHT);
+	add(_pop_up_message_label = new Label(_popUpMessage));
+	_pop_up_message_label->setTop(_top);
+	_pop_up_message_label->setLeft(_left);
+	_pop_up_message_label->setColor(Color::Black, Color::Red);
+	_pop_up_message_label->setFrameType(SINGLE_SOLID);
+	_pop_up_message_label->setWidth(_width);
+	_pop_up_message_label->setHeight(_height - ONE_CHAR_BUTTON_HEIGHT);
 	
-	add(_confirmButton = new Button("Confirm"));
-	_confirmButton->setTop(_top + ONE_CHAR_BUTTON_HEIGHT);
-	_confirmButton->setLeft(_left + 0.2*_width + NUMERIC_BOX_LABEL_SPACE_MARGIN);
-	_confirmButton->setColor(Color::Black, Color::Red);
+	add(_confirm_button = new Button(DEFAULT_CONFIRM_BUTTON_TEXT));
+	_confirm_button->setTop(_pop_up_message_label->getTop() + ONE_CHAR_BUTTON_HEIGHT);
+	_confirm_button->setLeft(_pop_up_message_label->getLeft() + 0.2*_width + NUMERIC_BOX_LABEL_SPACE_MARGIN);
+	_confirm_button->setColor(Color::Black, Color::Red);
 
-	add(_cancelButton = new Button("Cancel"));
-	_cancelButton->setTop(_top + ONE_CHAR_BUTTON_HEIGHT);
-	_cancelButton->setLeft(_confirmButton->getLeft() + _confirmButton->getWidth() + NUMERIC_BOX_LABEL_SPACE_MARGIN);
-	_cancelButton->setColor(Color::Black, Color::Red);
+	add(_cancel_button = new Button(DEFAULT_CANCEL_BUTTON_TEXT));
+	_cancel_button->setTop(_pop_up_message_label->getTop() + ONE_CHAR_BUTTON_HEIGHT);
+	_cancel_button->setLeft(_confirm_button->getLeft() + _confirm_button->getWidth() + NUMERIC_BOX_LABEL_SPACE_MARGIN);
+	_cancel_button->setColor(Color::Black, Color::Red);
 }
 
 void
@@ -88,5 +102,11 @@ MyMessageBox::closePopUp()
 	
 	//remove all children except pop up window open button
 	_children.erase(_children.begin() + 1, _children.end());
+	//restore initial width, height and position
+	_top += _height;
+	_left += MESSAGE_BOX_LEFT_OFFSET;
+	initSize();
+
 	debug(PG_DBG_INFO, "%s: ended. %s: bool", fn, _isConfirmed ? "true" : "false");
+	debug(PG_DBG_INFO, "%s: ended. %d: _top	%d: _left", fn, _top, _left);
 }

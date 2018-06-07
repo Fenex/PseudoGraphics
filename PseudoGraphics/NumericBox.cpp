@@ -23,23 +23,23 @@ void
 NumericBox::initChildren(int val)
 {
 	//create buttons and add as children
-	add(minButton = new Button("-"));
-	add(numericLabel = new Label(to_string(val)));
-	add(plusButton = new Button("+"));
+	add(_min_button = new Button("-"));
+	add(numeric_label = new Label(to_string(val)));
+	add(_plus_button = new Button("+"));
 
 	//init buttons color and position relative to box
-	minButton->setLeft(_left);
-	minButton->setTop(_top);
-	minButton->setColor(Color::Black, Color::Orange);
+	_min_button->setLeft(_left);
+	_min_button->setTop(_top);
+	_min_button->setColor(Color::Black, Color::Orange);
 
-	numericLabel->setLeft(_left + ONE_CHAR_BUTTON_WIDTH);
-	numericLabel->setTop(_top);
-	numericLabel->setHeight(ONE_CHAR_BUTTON_WIDTH);
-	numericLabel->setColor(Color::Black, Color::Orange);
+	numeric_label->setLeft(_left + ONE_CHAR_BUTTON_WIDTH);
+	numeric_label->setTop(_top);
+	numeric_label->setHeight(ONE_CHAR_BUTTON_WIDTH);
+	numeric_label->setColor(Color::Black, Color::Orange);
 
-	plusButton->setLeft(numericLabel->getLeft() + numericLabel->getWidth() + NUMERIC_BOX_LABEL_SPACE_MARGIN);
-	plusButton->setTop(_top);
-	plusButton->setColor(Color::Black, Color::Orange);
+	_plus_button->setLeft(numeric_label->getLeft() + numeric_label->getWidth() + NUMERIC_BOX_LABEL_SPACE_MARGIN);
+	_plus_button->setTop(_top);
+	_plus_button->setColor(Color::Black, Color::Orange);
 
 }
 
@@ -47,11 +47,11 @@ bool
 NumericBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
 	//check if clicked minus or plus Button
-	if (isInside(x, y, minButton->getLeft(), minButton->getTop(), minButton->getWidth(), minButton->getHeight())) {
+	if (isInside(x, y, _min_button->getLeft(), _min_button->getTop(), _min_button->getWidth(), _min_button->getHeight())) {
 		dec();
 		return true;
 	}
-	else if (isInside(x, y, plusButton->getLeft(), plusButton->getTop(), plusButton->getWidth(), plusButton->getHeight())) {
+	else if (isInside(x, y, _plus_button->getLeft(), _plus_button->getTop(), _plus_button->getWidth(), _plus_button->getHeight())) {
 		inc();
 		return true;
 	}
@@ -62,7 +62,7 @@ void
 NumericBox::inc()
 {
 	if ( _value + 1 <= _max) {
-		numericLabel->setValue(to_string(++_value));
+		numeric_label->setValue(to_string(++_value));
 	}
 }
 
@@ -70,7 +70,7 @@ void
 NumericBox::dec()
 {
 	if (_value - 1 >= _min) {
-		numericLabel->setValue(to_string(--_value));
+		numeric_label->setValue(to_string(--_value));
 	}
 	
 }

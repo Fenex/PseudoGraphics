@@ -20,11 +20,13 @@ int main(int argc, char** argv)
 	p.setHeight(80);
 	p.setFrameType(DOUBLE_SOLID);
 
+
 	//Button b("KING JAMES");
 	//b.setLeft(1);
 	//b.setTop(1);
 	//b.setColor(Color::Blue, Color::Green);
 	//p.add(&b);
+
 
 	//Label l("IM A LABEL");
 	//l.setColor(Color::Cyan, Color::Red);
@@ -37,6 +39,7 @@ int main(int argc, char** argv)
 	//l2.setLeft(12);
 	//l2.setTop(15);
 	//p.add(&l2);
+
 
 	//NumericBox numBo;
 	//numBo.setLeft(30);
@@ -53,6 +56,13 @@ int main(int argc, char** argv)
 	TextBox tb(1, 1, 12, 5);
 	tb.setColor(Color::Black, Color::White);
 	p.add(&tb);
+
+
+	//NumericBox numBo;
+	//numBo.setLeft(10);
+	//numBo.setTop(10);
+	//panel.add(&numBo);
+
 
 	EventEngine e;
 	e.run(p);
