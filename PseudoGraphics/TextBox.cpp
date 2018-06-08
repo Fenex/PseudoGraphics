@@ -120,7 +120,6 @@ isInTextBoundaries(COORD max_pos, COORD new_pos)
 bool
 TextBox::isValidMove(int key_code, Graphics& g)
 {
-	char* fn = __FUNCTION__;
 	COORD cur_pos = g.GetConsoleCursorPosition();
 	COORD end_str_pos = valueEndPos();
 	COORD new_pos;
@@ -155,7 +154,7 @@ void
 TextBox::keyDown(int keyCode, char character, Graphics& g)
 {
 	char* fn = __FUNCTION__;
-
+	
 
 	string s;
 	COORD c_pos = g.GetConsoleCursorPosition();
@@ -208,19 +207,41 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 	//simple matrix area calculation:
 	int MAX_TEXT_LENGTH_IN_BOX = (getWidth() - BORDER_OFFSET * 2) * (getHeight() - BORDER_OFFSET * 2);
 
+	
+
 	if (character != NULL)
 	{
 		if (_value.size() < MAX_TEXT_LENGTH_IN_BOX)
 		{
 			//push at the end || push in the middle || push at start:
+			int idx = posToIndex(c_pos);
 
-			//TODO: need to check where we are in regards to the string and push it in the right position...
-			//pushCharAt(getLastPos())
-			_value.push_back(character);
+			if (idx != -1)
+			{
+				if (idx == _value.size())
+				{
+					_value.push_back(character);
+				}
+				else
+				{
+					auto itr = _value.begin() + idx;
+					_value.insert(itr, character);
+
+					//if cursor is in between the text, dont move it
+					return;
+				}
+			}
+			else
+			{
+				debug(PG_DBG_ERROR, "%s invalid index. do nothing.", fn);
+				return;
+			}
+			
 
 			//set the curosr to next X position and go down a line if needed:
 			if (getLastPos().X + 1 == getLeft() + getWidth() - BORDER_OFFSET && getLastPos().Y < getTop() + getHeight() - BORDER_OFFSET )
 			{
+				debug(PG_DBG_INFO, "%s go down a line.", fn);
 				setLastPos({ getLeft() + BORDER_OFFSET, getLastPos().Y + 1});
 			}
 			else
@@ -231,6 +252,20 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 	}
 }
 
+//this function converts the cursor pos into the correct char index in text (_value):
+int
+TextBox::posToIndex(COORD pos)
+{
+	char* fn = __FUNCTION__;
+
+	int exact_row_size = getWidth() - (BORDER_OFFSET * 2);
+	int lines = pos.Y - getTop() - BORDER_OFFSET;
+	int idx = pos.X - getLeft() - BORDER_OFFSET + (lines * exact_row_size);
+
+	debug(PG_DBG_INFO, "%s idx =%d", fn, idx);
+	return (idx > _value.size() || idx < 0)  ?  -1 : idx;
+
+}
 
 void
 TextBox::drawValue(Graphics& g)

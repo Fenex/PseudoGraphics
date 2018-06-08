@@ -19,5 +19,6 @@ public:
 	COORD getLastPos();
 	void setLastPos(COORD pos);
 	bool isValidMove(int key_code, Graphics& g);
+	int posToIndex(COORD pos);
 };
 
