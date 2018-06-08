@@ -20,5 +20,7 @@ public:
 	void setLastPos(COORD pos);
 	bool isValidMove(int key_code, Graphics& g);
 	int posToIndex(COORD pos);
+	void handleBackspace(COORD current_pos);
+	void handleDelete(COORD curr_pos);
 };
 

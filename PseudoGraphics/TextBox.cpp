@@ -151,14 +151,83 @@ TextBox::isValidMove(int key_code, Graphics& g)
 }
 
 void
+TextBox::handleBackspace(COORD curr_pos)
+{
+	int idx = posToIndex(curr_pos);
+
+	if (idx != -1)
+	{
+		//if we are next to the left border of the tb
+		if (idx % (getWidth() - (BORDER_OFFSET * 2)) == 0)
+		{
+			//if we are the top left corner
+			if (idx == 0)
+			{
+				//nothing to delte backwards, leave.
+				return;
+			}
+			//we are at the 2nd and below line - its safe to delete.
+			else
+			{
+				setLastPos({ getLeft() + getWidth() - (BORDER_OFFSET * 2), getLastPos().Y - 1 });
+			}
+		}
+		//we are at the end of the text or in between:
+		else
+		{
+			setLastPos({ getLastPos().X - 1, getLastPos().Y });
+		}
+		//place iterator at previous position to the cursor, and erase char:
+		auto itr = _value.begin() + idx - 1;
+		_value.erase(itr);
+	}
+	return;
+}
+
+void
+TextBox::handleDelete(COORD curr_pos)
+{
+	char* fn = __FUNCTION__;
+	int idx = posToIndex(curr_pos);
+
+	if (idx != -1)
+	{
+		//if we are next to the right border of the tb
+		if (curr_pos.X + 1 == getLeft() + getWidth() - BORDER_OFFSET)
+		{
+			debug(PG_DBG_ERROR, "%s we are stuck to the right.", fn);
+			return;
+			//if we are the top left corner
+			if (idx == 0)
+			{
+				//nothing to delte backwards, leave.
+				return;
+			}
+			//we are at the 2nd and below line - its safe to delete.
+			else
+			{
+				setLastPos({ getLeft() + getWidth() - (BORDER_OFFSET * 2), getLastPos().Y - 1 });
+			}
+		}
+		//we are at the end of the text or in between:
+		else
+		{
+			setLastPos({ getLastPos().X - 1, getLastPos().Y });
+		}
+		//place iterator at previous position to the cursor, and erase char:
+		auto itr = _value.begin() + idx - 1;
+		_value.erase(itr);
+	}
+	return;
+}
+
+void
 TextBox::keyDown(int keyCode, char character, Graphics& g)
 {
 	char* fn = __FUNCTION__;
 	
-
-	string s;
 	COORD c_pos = g.GetConsoleCursorPosition();
-	s.push_back(character);
+	int idx = posToIndex(c_pos);
 	
 	switch (keyCode)
 	{
@@ -186,21 +255,14 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 		return;
 
 	case VK_BACK:
-
-		return;
+		return handleBackspace(c_pos);
 	case VK_DELETE:
-
-		return;
-
-	case VK_SPACE:
-		break;
+		return handleDelete(c_pos);
 
 	case VK_RETURN:
-
 		return;
 
 	default:
-
 		break;
 	} 
 
@@ -213,17 +275,17 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 	{
 		if (_value.size() < MAX_TEXT_LENGTH_IN_BOX)
 		{
-			//push at the end || push in the middle || push at start:
-			int idx = posToIndex(c_pos);
 
 			if (idx != -1)
 			{
+				//push at the end
 				if (idx == _value.size())
 				{
 					_value.push_back(character);
 				}
 				else
 				{
+					//push in the middle of the text || push at start:
 					auto itr = _value.begin() + idx;
 					_value.insert(itr, character);
 
@@ -241,7 +303,6 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 			//set the curosr to next X position and go down a line if needed:
 			if (getLastPos().X + 1 == getLeft() + getWidth() - BORDER_OFFSET && getLastPos().Y < getTop() + getHeight() - BORDER_OFFSET )
 			{
-				debug(PG_DBG_INFO, "%s go down a line.", fn);
 				setLastPos({ getLeft() + BORDER_OFFSET, getLastPos().Y + 1});
 			}
 			else
