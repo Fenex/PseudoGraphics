@@ -212,7 +212,13 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 	{
 		if (_value.size() < MAX_TEXT_LENGTH_IN_BOX)
 		{
+			//push at the end || push in the middle || push at start:
+
+			//TODO: need to check where we are in regards to the string and push it in the right position...
+			//pushCharAt(getLastPos())
 			_value.push_back(character);
+
+			//set the curosr to next X position and go down a line if needed:
 			if (getLastPos().X + 1 == getLeft() + getWidth() - BORDER_OFFSET && getLastPos().Y < getTop() + getHeight() - BORDER_OFFSET )
 			{
 				setLastPos({ getLeft() + BORDER_OFFSET, getLastPos().Y + 1});
