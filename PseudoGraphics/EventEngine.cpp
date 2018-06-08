@@ -55,31 +55,41 @@ EventEngine::run(Control& control)
 
 	//set 1st child as focused by default
 	setFirstFocusableChild(control);
-	_graphics.setCursorVisibility(false);
+	_graphics.clearScreen();
 
 	while (true)
 	{
-			
+		_graphics.setCursorVisibility(false);
 		//save last cursor position before we draw. this will help us get to the exact cursor pos
 		//we were if we're writing inside of a text box (e.g):
 		//COORD last_cur_pos = _graphics.GetConsoleCursorPosition();
 
+		//debug(PG_DBG_INFO, "%s: last_cur_pos:{%d,%d}.", fn, last_cur_pos.X, last_cur_pos.Y);
+
 		if (redraw == true) {
-			_graphics.clearScreen();
+
 
 			//draw every control and child of control on our panel (recursive):
 			control.draw(_graphics);
 			redraw = false;
 		}
 		
+		//debug(PG_DBG_INFO, "%s: pos after draw:{%d,%d}.", fn, _graphics.GetConsoleCursorPosition().X, _graphics.GetConsoleCursorPosition().Y);
+
 		//get back to last cur position:
 		//_graphics.moveTo(last_cur_pos.X, last_cur_pos.Y);
 
 		auto focused_control = Control::getFocus();
 
 		//if any TextBox is focused, show cursor and set it to the last coord it was on:
-		bool visible = isATextBox(focused_control) ? true : false;
-		_graphics.setCursorVisibility(visible);
+		if (isATextBox(focused_control))
+		{
+			_graphics.setCursorVisibility(true);
+			debug(PG_DBG_INFO, "%s textbox is focused, moving to last pos {%d, %d}", fn, static_cast<TextBox*>(Control::getFocus())->getLastPos().X, static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);
+			_graphics.moveTo(
+				static_cast<TextBox*>(Control::getFocus())->getLastPos().X,
+				static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);
+		}
 
 		INPUT_RECORD record;
 		DWORD count;
@@ -94,20 +104,10 @@ EventEngine::run(Control& control)
 				auto chr = record.Event.KeyEvent.uChar.AsciiChar;
 				if (code == VK_TAB)
 				{
-					debug(PG_DBG_INFO, "%s: KEY_EVENT: TAB.", fn);
 					moveFocus(control, focused_control);
-					
-					if (isATextBox(Control::getFocus()))
-					{
-						//if we tab to a TextBox, place cursor at this text box as if it was clicked:
-						_graphics.moveTo(
-							(Control::getFocus())->getLeft() + BORDER_OFFSET,
-							(Control::getFocus())->getTop() + BORDER_OFFSET);
-					}
 				}
 				else
 				{
-					debug(PG_DBG_INFO, "%s: KEY_EVENT: Ascii Char.", fn);
 					focused_control->keyDown(code, chr, _graphics);
 				}
 				redraw = true;

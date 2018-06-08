@@ -6,6 +6,7 @@ TextBox::TextBox()
 	setClickable(true);
 	setFocusable(true);
 	setFrameType(SINGLE_SOLID);
+	setLastPos({ _left + BORDER_OFFSET, _top + BORDER_OFFSET });
 }
 
 TextBox::TextBox(short left = 0, short top = 0, short width = 5, short height = 5) : Control()
@@ -17,45 +18,15 @@ TextBox::TextBox(short left = 0, short top = 0, short width = 5, short height = 
 	setClickable(true);
 	setFocusable(true);
 	setFrameType(SINGLE_SOLID);
+	setLastPos({ _left + BORDER_OFFSET, _top + BORDER_OFFSET });
 }
 
 //draw the entire text box
 void
 TextBox::draw(Graphics& g) {
 	char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, fn, "called.");
 	Control::draw(g);
 	drawValue(g);
-}
-
-void
-TextBox::setBoxCursorX(short x)
-{
-	if (x >= _left && x <= _left + _width)
-	{
-		_box_cursor_x = x;
-	}
-}
-
-void
-TextBox::setBoxCursorY(short y)
-{
-	if (y >= _top && y <= _top + _height)
-	{
-		_box_cursor_y = y;
-	}
-
-}
-
-short
-TextBox::getBoxCursorX()
-{
-	return _box_cursor_x;
-}
-short
-TextBox::getBoxCursorY()
-{
-	return _box_cursor_y;
 }
 
 //this func returns the maximum x,y coords the cursor could possibly be, 
@@ -64,7 +35,6 @@ COORD
 TextBox::valueEndPos()
 {
 	char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s called.", fn);
 
 	short exact_cols_size = getWidth() - (BORDER_OFFSET * 2);
 	short max_x, max_y;
@@ -109,23 +79,30 @@ TextBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 	}
 	else
 	{	
+		COORD end_str_pos = valueEndPos();
+
 		//case 1:
-		if (y >= valueEndPos().Y && x >= valueEndPos().X || 
-			y > valueEndPos().Y)
+		if (y >= end_str_pos.Y && x >= end_str_pos.X ||
+			y > end_str_pos.Y)
 		{
-			if (valueEndPos().X == getLeft() + getWidth() - BORDER_OFFSET*2)
+			debug(PG_DBG_INFO, "%s clicked outside text.", fn);
+			if (end_str_pos.X == getLeft() + getWidth() - BORDER_OFFSET*2)
 			{
-				g.moveTo(getLeft() + 1, valueEndPos().Y);
+				setLastPos({getLeft() + 1, end_str_pos.Y});
+				//g.moveTo(getLeft() + 1, end_str_pos.Y);
 			}
 			else
 			{
-				g.moveTo(valueEndPos().X+1, valueEndPos().Y);
+				setLastPos({end_str_pos.X + 1, end_str_pos.Y });
+				//g.moveTo(end_str_pos.X+1, end_str_pos.Y);
 			}
 		}
-		//case 2:
 		else
-		{	
-			g.moveTo(x, y);
+		{
+			//case 2:
+			//g.moveTo(x, y);
+			debug(PG_DBG_INFO, "%s clicked between text.", fn);
+			setLastPos({(short)x, (short)y});
 		}
 	}
 	return true;
@@ -136,37 +113,35 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 {
 	char* fn = __FUNCTION__;
 
-	string s;
 
+	string s;
+	COORD c_pos = g.GetConsoleCursorPosition();
 	s.push_back(character);
 	
 	switch (keyCode)
 	{
 	//numpad keys:
 	case VK_NUMPAD4:
-
+	case VK_LEFT:
+		if (!(c_pos.X - 1 == getLeft() + BORDER_OFFSET))
+			setLastPos({ c_pos.X - 1, c_pos.Y });
 		return;
 	case VK_NUMPAD6:
-
+	case VK_RIGHT:
+		if (!(c_pos.X + 1 == getLeft() + getWidth() - BORDER_OFFSET))
+			setLastPos({c_pos.X + 1, c_pos.Y});
 		return;
 	case VK_NUMPAD8:
-
+	case VK_UP:
+		if (!(c_pos.Y - 1 == getTop() + BORDER_OFFSET))
+			setLastPos({ c_pos.X, c_pos.Y - 1 });
 		return;
 	case VK_NUMPAD2:
-
-		return;
-	case VK_LEFT:
-
-		return;
-	case VK_RIGHT:
-
-		return;
-	case VK_UP:
-
-		return;
 	case VK_DOWN:
-
+		if (!(c_pos.Y + 1 == getTop() + getHeight()  - BORDER_OFFSET))
+			setLastPos({ c_pos.X, c_pos.Y + 1 });
 		return;
+
 	case VK_BACK:
 
 		return;
@@ -175,8 +150,12 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 		return;
 
 	case VK_SPACE:
+		break;
+
+	case VK_RETURN:
 
 		return;
+
 	default:
 
 		break;
@@ -187,20 +166,18 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 
 	if (character != NULL)
 	{
-		if (_value.size() >= MAX_TEXT_LENGTH_IN_BOX)
+		if (_value.size() < MAX_TEXT_LENGTH_IN_BOX)
 		{
-			return;
+			_value.push_back(character);
+			if (getLastPos().X + 1 == getLeft() + getWidth() - BORDER_OFFSET && getLastPos().Y < getTop() + getHeight() - BORDER_OFFSET )
+			{
+				setLastPos({ getLeft() + BORDER_OFFSET, getLastPos().Y + 1});
+			}
+			else
+			{
+				setLastPos({ getLastPos().X + 1 , getLastPos().Y});
+			}
 		}
-
-		_value.push_back(character);
-		short line_down = 0;
-		short roll_back = 0;
-		if (g.GetConsoleCursorPosition().X == getLeft() + getWidth() - BORDER_OFFSET*2)
-		{
-			line_down++;
-			roll_back = getWidth() - BORDER_OFFSET * 2;
-		}
-		g.moveTo(g.GetConsoleCursorPosition().X + 1 - roll_back, g.GetConsoleCursorPosition().Y + line_down);
 	}
 }
 
@@ -211,7 +188,10 @@ TextBox::drawValue(Graphics& g)
 	short exact_row_size = getWidth() - (BORDER_OFFSET * 2);
 	short exact_col_size = getHeight() - (BORDER_OFFSET * 2);;
 
+	//setLastPos({ g.GetConsoleCursorPosition().X, g.GetConsoleCursorPosition().Y });
+	
 	g.moveTo(getLeft() + BORDER_OFFSET, getTop() + BORDER_OFFSET);
+
 
 	for (short i = 0, j = 0; i < _value.size(); i++)
 	{
@@ -232,6 +212,20 @@ TextBox::drawValue(Graphics& g)
 	}
 
 }
+
+COORD
+TextBox::getLastPos()
+{
+	return _last_pos;
+}
+
+void
+TextBox::setLastPos(COORD pos)
+{
+	_last_pos = pos;
+}
+
+
 
 bool 
 TextBox::myPureFunction()

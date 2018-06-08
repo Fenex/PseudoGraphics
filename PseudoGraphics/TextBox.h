@@ -2,12 +2,8 @@
 #include "Control.h"
 class TextBox : public Control
 {
-	short _box_cursor_x;
-	short _box_cursor_y;
+	COORD _last_pos;
 	string _value;
-
-	void setBoxCursorX(short x);
-	void setBoxCursorY(short y);
 
 public:
 	TextBox();
@@ -20,7 +16,7 @@ public:
 	bool mousePressed(int x, int y, bool isLeft, Graphics& g);
 	void keyDown(int keyCode, char character, Graphics& g);
 	COORD valueEndPos();
-	short getBoxCursorX();
-	short getBoxCursorY();
+	COORD getLastPos();
+	void setLastPos(COORD pos);
 };
 

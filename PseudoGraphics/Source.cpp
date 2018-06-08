@@ -27,12 +27,15 @@ int main(int argc, char** argv)
 	//b.setColor(Color::Blue, Color::Green);
 	//p.add(&b);
 
+	TextBox tb(1, 1, 12, 5);
+	tb.setColor(Color::Black, Color::White);
+	p.add(&tb);
 
-	//Label l("IM A LABEL");
-	//l.setColor(Color::Cyan, Color::Red);
-	//l.setLeft(10);
-	//l.setTop(10);
-	//p.add(&l);
+	Label l("IM A LABEL");
+	l.setColor(Color::Cyan, Color::Red);
+	l.setLeft(10);
+	l.setTop(10);
+	p.add(&l);
 
 	//Label l2("IM RICK JAMES");
 	//l2.setColor(Color::Black, Color::Orange);
@@ -53,9 +56,7 @@ int main(int argc, char** argv)
 	//msg.setTop(30);
 	//p.add(&msg);
 
-	TextBox tb(1, 1, 12, 5);
-	tb.setColor(Color::Black, Color::White);
-	p.add(&tb);
+
 
 
 	//NumericBox numBo;
