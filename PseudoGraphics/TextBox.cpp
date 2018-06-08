@@ -189,33 +189,24 @@ TextBox::handleDelete(COORD curr_pos)
 {
 	char* fn = __FUNCTION__;
 	int idx = posToIndex(curr_pos);
+	debug(PG_DBG_ERROR, "%s idx=%d.", fn);
 
 	if (idx != -1)
 	{
 		//if we are next to the right border of the tb
-		if (curr_pos.X + 1 == getLeft() + getWidth() - BORDER_OFFSET)
+		if (curr_pos.X + 1 == getLeft() + getWidth())
 		{
-			debug(PG_DBG_ERROR, "%s we are stuck to the right.", fn);
 			return;
-			//if we are the top left corner
-			if (idx == 0)
+			//if we are at the bottom right corner
+			if (curr_pos.Y == (getTop() + getWidth() - BORDER_OFFSET))
 			{
-				//nothing to delte backwards, leave.
+				//nothing to delte forwards, leave.
 				return;
 			}
-			//we are at the 2nd and below line - its safe to delete.
-			else
-			{
-				setLastPos({ getLeft() + getWidth() - (BORDER_OFFSET * 2), getLastPos().Y - 1 });
-			}
 		}
-		//we are at the end of the text or in between:
-		else
-		{
-			setLastPos({ getLastPos().X - 1, getLastPos().Y });
-		}
+		setLastPos(curr_pos);
 		//place iterator at previous position to the cursor, and erase char:
-		auto itr = _value.begin() + idx - 1;
+		auto itr = _value.begin() + idx;
 		_value.erase(itr);
 	}
 	return;
