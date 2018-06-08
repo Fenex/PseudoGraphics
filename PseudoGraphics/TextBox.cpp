@@ -82,6 +82,7 @@ TextBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 		COORD end_str_pos = valueEndPos();
 
 		//case 1:
+		//todo: replace this first 'if' with isInTextBoundaries() call:
 		if (y >= end_str_pos.Y && x >= end_str_pos.X ||
 			y > end_str_pos.Y)
 		{
@@ -89,23 +90,65 @@ TextBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 			if (end_str_pos.X == getLeft() + getWidth() - BORDER_OFFSET*2)
 			{
 				setLastPos({getLeft() + 1, end_str_pos.Y});
-				//g.moveTo(getLeft() + 1, end_str_pos.Y);
 			}
 			else
 			{
 				setLastPos({end_str_pos.X + 1, end_str_pos.Y });
-				//g.moveTo(end_str_pos.X+1, end_str_pos.Y);
 			}
 		}
 		else
 		{
 			//case 2:
-			//g.moveTo(x, y);
 			debug(PG_DBG_INFO, "%s clicked between text.", fn);
 			setLastPos({(short)x, (short)y});
 		}
 	}
 	return true;
+}
+
+static bool
+isInTextBoundaries(COORD max_pos, COORD new_pos)
+{
+	if (new_pos.Y >= max_pos.Y && new_pos.X-1 > max_pos.X ||
+		new_pos.Y > max_pos.Y)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool
+TextBox::isValidMove(int key_code, Graphics& g)
+{
+	char* fn = __FUNCTION__;
+	COORD cur_pos = g.GetConsoleCursorPosition();
+	COORD end_str_pos = valueEndPos();
+	COORD new_pos;
+
+	switch (key_code)
+	{
+
+		case VK_LEFT:
+			new_pos = { cur_pos.X - 1 , cur_pos.Y};
+			return new_pos.X > getLeft() && isInTextBoundaries(end_str_pos, new_pos);
+
+		case VK_RIGHT:
+			new_pos = { cur_pos.X + 1 , cur_pos.Y };
+			return new_pos.X < getLeft() + getWidth() - BORDER_OFFSET && isInTextBoundaries(end_str_pos, new_pos);
+
+		case VK_UP:
+			new_pos = { cur_pos.X, cur_pos.Y - 1 };
+			return new_pos.Y > getTop() && isInTextBoundaries(end_str_pos, new_pos);
+
+		case VK_DOWN:
+			new_pos = { cur_pos.X, cur_pos.Y + 1 };
+			return new_pos.Y < getTop() + getHeight() - BORDER_OFFSET && isInTextBoundaries(end_str_pos, new_pos);
+
+		default:
+			break;
+	}
+
+	return false;
 }
 
 void
@@ -123,22 +166,23 @@ TextBox::keyDown(int keyCode, char character, Graphics& g)
 	//numpad keys:
 	case VK_NUMPAD4:
 	case VK_LEFT:
-		if (!(c_pos.X - 1 == getLeft() + BORDER_OFFSET))
+		if (isValidMove(VK_LEFT, g))
 			setLastPos({ c_pos.X - 1, c_pos.Y });
 		return;
 	case VK_NUMPAD6:
 	case VK_RIGHT:
-		if (!(c_pos.X + 1 == getLeft() + getWidth() - BORDER_OFFSET))
-			setLastPos({c_pos.X + 1, c_pos.Y});
+		if (isValidMove(VK_RIGHT, g))
+			setLastPos({ c_pos.X + 1, c_pos.Y });
+			
 		return;
 	case VK_NUMPAD8:
 	case VK_UP:
-		if (!(c_pos.Y - 1 == getTop() + BORDER_OFFSET))
+		if (isValidMove(VK_UP, g))
 			setLastPos({ c_pos.X, c_pos.Y - 1 });
 		return;
 	case VK_NUMPAD2:
 	case VK_DOWN:
-		if (!(c_pos.Y + 1 == getTop() + getHeight()  - BORDER_OFFSET))
+		if (isValidMove(VK_DOWN, g))
 			setLastPos({ c_pos.X, c_pos.Y + 1 });
 		return;
 

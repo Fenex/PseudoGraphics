@@ -18,5 +18,6 @@ public:
 	COORD valueEndPos();
 	COORD getLastPos();
 	void setLastPos(COORD pos);
+	bool isValidMove(int key_code, Graphics& g);
 };
 
