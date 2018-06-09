@@ -47,8 +47,8 @@ public:
 	
 	//virtual void draw(Graphics& g, int x, int y, size_t z);
 	virtual void draw(Graphics& g);
-	virtual bool mousePressed(int x, int y, bool isLeft);
-	virtual void keyDown(int keyCode, char charecter) {};
+	virtual bool mousePressed(int x, int y, bool isLeft, Graphics& g);
+	virtual void keyDown(int keyCode, char character, Graphics& g) {};
 	virtual short getLeft() { return _left; };
 	virtual short getTop() { return _top; };
 	virtual void getAllControls(vector<Control*>* controls);
@@ -64,8 +64,8 @@ public:
 	void setColor(Color bg, Color fg);
 	short getWidth();
 	short getHeight();
-	void setTop(short x);
-	void setLeft(short y);
+	virtual void setTop(short x);
+	virtual void setLeft(short y);
 	void setWidth(short x);
 	void setHeight(short y);
 	void setOtherComponent(Control *other);

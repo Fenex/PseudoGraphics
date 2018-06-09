@@ -19,7 +19,7 @@ public:
 	~MyMessageBox();
 	bool myPureFunction() { return false; }
 	void draw(Graphics& g);
-	bool mousePressed(int x, int y, bool isLeft);
+	bool mousePressed(int x, int y, bool isLeft, Graphics& g);
 
 	bool getConfirmationStatus() { return _is_confirmed; }
 	void openPopUp();

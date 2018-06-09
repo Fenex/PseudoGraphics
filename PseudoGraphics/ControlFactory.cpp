@@ -28,7 +28,7 @@ ControlsFactory::create(ControlProduct product) {
 		//control =  new ComboBox();
 		break;
 	case MESSAGE_BOX:
-		//control = new MessageBox();
+		//control = new MyMessageBox();
 		break;
 	case RADIO_BOX:
 		//control = new RadioBox();

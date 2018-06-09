@@ -17,7 +17,7 @@ isATextBox(Control* control) {
 
 	if (dynamic_cast<TextBox*>(control) != NULL)
 	{
-		debug(PG_DBG_INFO, "%s: focused control is a TextBox.", fn);
+		//debug(PG_DBG_INFO, "%s: focused control is a TextBox.", fn);
 		return true;
 	}
 	return false;
@@ -55,22 +55,46 @@ EventEngine::run(Control& control)
 
 	//set 1st child as focused by default
 	setFirstFocusableChild(control);
-	_graphics.setCursorVisibility(false);
+
 
 	while (true)
 	{
+		_graphics.setCursorVisibility(false);
+		//save last cursor position before we draw. this will help us get to the exact cursor pos
+		//we were if we're writing inside of a text box (e.g):
+		//COORD last_cur_pos = _graphics.GetConsoleCursorPosition();
+
+		//debug(PG_DBG_INFO, "%s: last_cur_pos:{%d,%d}.", fn, last_cur_pos.X, last_cur_pos.Y);
 
 		if (redraw == true) {
-			//init default cursor attributes:
-			_graphics.clearScreen();
 
-			//draw EVERY control and child of control on our panel (recursive):
+
+			//draw every control and child of control on our panel (recursive):
+			_graphics.clearScreen();
 			control.draw(_graphics);
-			
 			redraw = false;
 		}
+		
+		//debug(PG_DBG_INFO, "%s: pos after draw:{%d,%d}.", fn, _graphics.GetConsoleCursorPosition().X, _graphics.GetConsoleCursorPosition().Y);
 
+		//get back to last cur position:
+		//_graphics.moveTo(last_cur_pos.X, last_cur_pos.Y);
 
+		auto focused_control = Control::getFocus();
+
+		//if any TextBox is focused, show cursor and set it to the last coord it was on:
+		if (isATextBox(focused_control))
+		{
+			_graphics.setCursorVisibility(true);
+			debug(PG_DBG_INFO, "%s: tb is focused. moving to {%d,%d}", fn, static_cast<TextBox*>(Control::getFocus())->getLastPos().X, static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);
+			_graphics.moveTo(
+				static_cast<TextBox*>(Control::getFocus())->getLastPos().X,
+				static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);
+		}
+		else
+		{
+			_graphics.setCursorVisibility(false);
+		}
 
 		INPUT_RECORD record;
 		DWORD count;
@@ -79,28 +103,17 @@ EventEngine::run(Control& control)
 		{
 		case KEY_EVENT:
 		{
-			auto focused_control = Control::getFocus();
-
-			//if any TextBox is focused, show cursor.
-			if (isATextBox(focused_control)) {
-				_graphics.setCursorVisibility(true);
-			}
-			else {
-				_graphics.setCursorVisibility(false);
-			}
 			if (focused_control != nullptr && record.Event.KeyEvent.bKeyDown)
 			{
 				auto code = record.Event.KeyEvent.wVirtualKeyCode;
 				auto chr = record.Event.KeyEvent.uChar.AsciiChar;
 				if (code == VK_TAB)
 				{
-					debug(PG_DBG_INFO, "%s: KEY_EVENT: TAB.", fn);
 					moveFocus(control, focused_control);
 				}
 				else
 				{
-					debug(PG_DBG_INFO, "%s: KEY_EVENT: Ascii Char.", fn);
-					focused_control->keyDown(code, chr);
+					focused_control->keyDown(code, chr, _graphics);
 				}
 				redraw = true;
 			}
@@ -115,7 +128,7 @@ EventEngine::run(Control& control)
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
 				debug(PG_DBG_INFO, "%s: MOUSE_EVENT: at {%d,%d} isLeftClick=%d.", fn, x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
-				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED))
+				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED, _graphics))
 				{
 					debug(PG_DBG_INFO, "%s: redraw.", fn);
 					redraw = true;
@@ -139,10 +152,11 @@ void
 EventEngine::moveFocus(Control &main, Control *focused) 
 {
 	vector<Control*> controls = main.getChildren();
-	//old: main.getAllControls(&controls);
 
 	//set iterator for the children list:
 	auto iter = find(controls.begin(), controls.end(), focused);
+
+	//TODO: add inner iteration (recursive) in case a panel holds ANOTHER panel inside. 
 	
 	//iterate untill iterator == the to-be-focused child:
 	do

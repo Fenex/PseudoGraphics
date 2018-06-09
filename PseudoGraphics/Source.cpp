@@ -9,24 +9,24 @@ int main(int argc, char** argv)
 	ControlsFactory& factory = ControlsFactory::getInstance();
 
 	//create some controls with out 'enum ControlProduct' helper:
-	Control& label = factory.create(LABEL);
+	Control& f_label = factory.create(LABEL);
+	Control& f_btn = factory.create(BUTTON);
+	Control& f_tb = factory.create(TEXT_BOX);
 
-	Panel p;
+	Panel p,p2;
 	Control& panel = p;
-	p.setColor(Color::Purple, Color::Orange);
-	p.setLeft(10);
-	p.setTop(10);
+	p.setColor(Color::Purple, Color::Black);
+	p.setLeft(5);
+	p.setTop(5);
 	p.setWidth(50);
-	p.setHeight(30);
+	p.setHeight(40);
 	p.setFrameType(DOUBLE_SOLID);
 
-	//Button b("KING JAMES");
-	//b.setLeft(1);
-	//b.setTop(1);
+	//Button b("Click Me");
+	//b.setLeft(20);
+	//b.setTop(5);
 	//b.setColor(Color::Blue, Color::Green);
 	//p.add(&b);
-
-	//
 	//Label l("IM A LABEL");
 	//l.setColor(Color::Cyan, Color::Red);
 	//l.setLeft(10);
@@ -39,7 +39,14 @@ int main(int argc, char** argv)
 	//l2.setTop(15);
 	//p.add(&l2);
 
+
+	//NumericBox numBo;
+	//numBo.setLeft(30);
+	//numBo.setTop(20);
+	//p.add(&numBo);
+	//string s("Do you really want to exit?");
 	//
+
 	//
 	/*NumericBox numBo(10,10);
 	panel.add(&numBo);*/
@@ -56,7 +63,7 @@ int main(int argc, char** argv)
 
 
 	EventEngine e;
-	e.run(p);
+	e.run(panel);
 
 
 }

@@ -82,7 +82,7 @@ Control::~Control() {}
 void
 Control::draw(Graphics& g) {
 	const char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);
+	//debug(PG_DBG_INFO, "%s: called.", fn);
 	g.setBackground(_background);
 	g.setForeground(_foreground);
 	drawBorder(g);
@@ -92,7 +92,7 @@ Control::draw(Graphics& g) {
 void
 Control::drawBorder(Graphics& g) {
 	const char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);
+	//debug(PG_DBG_INFO, "%s: called.", fn);
 
 	char top_left, top_right, btm_left, btm_right;
 	char line_horiz, line_vert;
@@ -137,7 +137,7 @@ Control::drawBorder(Graphics& g) {
 void
 Control::drawChildren(Graphics& g) {
 	char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);
+	//debug(PG_DBG_INFO, "%s: called.", fn);
 
 	for each (Control* child in _children) {
 		child->draw(g);
@@ -275,8 +275,6 @@ void
 Control::add(Control* child)
 {
 	const char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);
-	debug(PG_DBG_INFO, "%s: new_child=%d.", fn, child);
 
 	if (child) {
 		//fix (update) child's position in relation to this parent:
@@ -291,7 +289,7 @@ Control::add(Control* child)
 }
 
 bool 
-Control::mousePressed(int x, int y, bool isLeft) {
+Control::mousePressed(int x, int y, bool isLeft, Graphics& g) {
 	const char* fn = __FUNCTION__;
 	debug(PG_DBG_INFO, "%s: called.", fn);
 	
@@ -299,13 +297,11 @@ Control::mousePressed(int x, int y, bool isLeft) {
 	{
 		for each (Control* child in _children)
 		{
-			debug(PG_DBG_INFO, "%s: child={%d,%d}.", fn, child->_left, child->_top);
-
 			if (isInside(x, y, child->_left, child->_top, child->_width, child->_height))
 			{
 				debug(PG_DBG_INFO, "%s: found the clicked child.", fn);
 				setFocus(*child);
-				return child->mousePressed(x, y, isLeft);
+				return child->mousePressed(x, y, isLeft, g);
 			}
 		}
 	}

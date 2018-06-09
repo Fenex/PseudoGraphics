@@ -20,7 +20,7 @@ public:
 	Button(const char* s);
 	virtual ~Button();
 	virtual bool myPureFunction();
-	bool mousePressed(int x, int y, bool isLeft);
+	bool mousePressed(int x, int y, bool isLeft, Graphics& g);
 	void fixDimensions();
 };
 

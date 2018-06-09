@@ -50,7 +50,7 @@ MyMessageBox::draw(Graphics& g)
 }
 
 bool
-MyMessageBox::mousePressed(int x, int y, bool isLeft)
+MyMessageBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
 	
 	if (isInside(x, y, _open_pop_up_button->getLeft(), _open_pop_up_button->getTop(), _open_pop_up_button->getWidth(), _open_pop_up_button->getHeight()) && !_is_pop_up_open) {
