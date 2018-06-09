@@ -35,17 +35,7 @@ Pseudo Graphics is a static library API for developing User Interface on windows
 Every component can be created with no values passed to constructor. These can be modified and set later - avoiding this will be resulted with **undefined behavior**.<br>
 
 Here are some good practices for instantiating the components:
-|Component            |Synthax                          |Example                         |
-|----------------|-------------------------------|-----------------------------|
-|Label			 |Label(String text)             |`Label label("a lable");`            |
-|Button          |Button(String title)           |`Button btn("click me");`            |
-|TextBox         |TextBox(short left, short top, short width, short height)| `TextBox tb(1, 1, 12, 5);` |
-|NumericBox      |NumericBox(int max, int min, int value)|`NumericBox nb(100,90,95);`|
-|MessageBox      |MyMessageBox(String btn_text, String pop_msg)|`MyMessageBox mb("Exit","Sure?");`|
-|RadioBox         |RadioBox()|`RadioBox rb();`|
-|ComboBox         |ComboBox()|`ComboBox cb();`|
-|CheckList       |CheckList()|`CheckList cl();`|
-|Panel           |Panel(void)|`Panel panel;`|
+![table](https://user-images.githubusercontent.com/21342315/41191692-acac5d1e-6bf3-11e8-89f9-cb17dc1b3db7.png)
 
 
 ### Basic Usage Demo
