@@ -12,7 +12,7 @@ private:
 	void inc();
 	void dec();
 public:
-	NumericBox(int max = MAX_NUMERIC_VAL, int min = MIN_NUMERIC_VAL, int value = DEF_NUMERIC_VAL);
+	NumericBox(short top, short left, int max = MAX_NUMERIC_VAL, int min = MIN_NUMERIC_VAL, int value = DEF_NUMERIC_VAL);
 	~NumericBox();
 	void draw(Graphics&);
 	bool myPureFunction() { return false; }

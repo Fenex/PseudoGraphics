@@ -1,8 +1,9 @@
 #include "NumericBox.h"
 
-NumericBox::NumericBox(int max, int min, int value)
+NumericBox::NumericBox(short top, short left, int max, int min, int value)
 {
-	
+	_top = top;
+	_left = left;
 	_max = max;
 	_min = min;
 	_value = value;
@@ -34,12 +35,15 @@ NumericBox::initChildren(int val)
 
 	numeric_label->setLeft(_left + ONE_CHAR_BUTTON_WIDTH);
 	numeric_label->setTop(_top);
-	numeric_label->setHeight(ONE_CHAR_BUTTON_WIDTH);
+	numeric_label->setHeight(ONE_CHAR_BUTTON_HEIGHT);
 	numeric_label->setColor(Color::Black, Color::Orange);
 
 	_plus_button->setLeft(numeric_label->getLeft() + numeric_label->getWidth() + NUMERIC_BOX_LABEL_SPACE_MARGIN);
 	_plus_button->setTop(_top);
 	_plus_button->setColor(Color::Black, Color::Orange);
+
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: ended. %d: top	%d: left ", fn, _top, _left);
 
 }
 

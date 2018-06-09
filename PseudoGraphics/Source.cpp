@@ -20,11 +20,11 @@ int main(int argc, char** argv)
 	p.setHeight(30);
 	p.setFrameType(DOUBLE_SOLID);
 
-	Button b("KING JAMES");
-	b.setLeft(1);
-	b.setTop(1);
-	b.setColor(Color::Blue, Color::Green);
-	p.add(&b);
+	//Button b("KING JAMES");
+	//b.setLeft(1);
+	//b.setTop(1);
+	//b.setColor(Color::Blue, Color::Green);
+	//p.add(&b);
 
 	//
 	//Label l("IM A LABEL");
@@ -41,15 +41,18 @@ int main(int argc, char** argv)
 
 	//
 	//
-	//NumericBox numBo;
-	//numBo.setLeft(10);
-	//numBo.setTop(10);
-	//panel.add(&numBo);
+	/*NumericBox numBo(10,10);
+	panel.add(&numBo);*/
 
-	MyMessageBox msg;
-	msg.setLeft(20);
-	msg.setTop(20);
+	string txt("this is a message box");
+	string btn("Fuck Me");
+
+	MyMessageBox msg(20, 20, btn,txt);
 	panel.add(&msg);
+
+	/*vector<string> options_list = { "abcd","abcde","abcdefg","123456789101112" };
+	ComboBox combox(10, 10, options_list);
+	panel.add(&combox);*/
 
 
 	EventEngine e;
