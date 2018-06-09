@@ -55,7 +55,7 @@ EventEngine::run(Control& control)
 
 	//set 1st child as focused by default
 	setFirstFocusableChild(control);
-	_graphics.clearScreen();
+
 
 	while (true)
 	{
@@ -70,6 +70,7 @@ EventEngine::run(Control& control)
 
 
 			//draw every control and child of control on our panel (recursive):
+			_graphics.clearScreen();
 			control.draw(_graphics);
 			redraw = false;
 		}
@@ -85,10 +86,14 @@ EventEngine::run(Control& control)
 		if (isATextBox(focused_control))
 		{
 			_graphics.setCursorVisibility(true);
-			
+			debug(PG_DBG_INFO, "%s: tb is focused. moving to {%d,%d}", fn, static_cast<TextBox*>(Control::getFocus())->getLastPos().X, static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);
 			_graphics.moveTo(
 				static_cast<TextBox*>(Control::getFocus())->getLastPos().X,
 				static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);
+		}
+		else
+		{
+			_graphics.setCursorVisibility(false);
 		}
 
 		INPUT_RECORD record;
@@ -147,10 +152,11 @@ void
 EventEngine::moveFocus(Control &main, Control *focused) 
 {
 	vector<Control*> controls = main.getChildren();
-	//old: main.getAllControls(&controls);
 
 	//set iterator for the children list:
 	auto iter = find(controls.begin(), controls.end(), focused);
+
+	//TODO: add inner iteration (recursive) in case a panel holds ANOTHER panel inside. 
 	
 	//iterate untill iterator == the to-be-focused child:
 	do

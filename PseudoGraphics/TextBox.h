@@ -22,5 +22,7 @@ public:
 	int posToIndex(COORD pos);
 	void handleBackspace(COORD current_pos);
 	void handleDelete(COORD curr_pos);
+	void setLeft(short x);
+	void setTop(short y);
 };
 

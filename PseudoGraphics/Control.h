@@ -64,8 +64,8 @@ public:
 	void setColor(Color bg, Color fg);
 	short getWidth();
 	short getHeight();
-	void setTop(short x);
-	void setLeft(short y);
+	virtual void setTop(short x);
+	virtual void setLeft(short y);
 	void setWidth(short x);
 	void setHeight(short y);
 	void setOtherComponent(Control *other);

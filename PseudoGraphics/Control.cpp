@@ -275,8 +275,6 @@ void
 Control::add(Control* child)
 {
 	const char* fn = __FUNCTION__;
-	//debug(PG_DBG_INFO, "%s: called.", fn);
-	//debug(PG_DBG_INFO, "%s: new_child=%d.", fn, child);
 
 	if (child) {
 		//fix (update) child's position in relation to this parent:

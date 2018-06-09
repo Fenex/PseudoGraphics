@@ -109,11 +109,13 @@ TextBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 static bool
 isInTextBoundaries(COORD max_pos, COORD new_pos)
 {
+	const char* fn = __FUNCTION__;
 	if (new_pos.Y >= max_pos.Y && new_pos.X-1 > max_pos.X ||
 		new_pos.Y > max_pos.Y)
 	{
 		return false;
 	}
+	debug(PG_DBG_INFO, "%s IN TEXT BOUNDARIES.", fn);
 	return true;
 }
 
@@ -126,7 +128,6 @@ TextBox::isValidMove(int key_code, Graphics& g)
 
 	switch (key_code)
 	{
-
 		case VK_LEFT:
 			new_pos = { cur_pos.X - 1 , cur_pos.Y};
 			return new_pos.X > getLeft() && isInTextBoundaries(end_str_pos, new_pos);
@@ -360,6 +361,20 @@ void
 TextBox::setLastPos(COORD pos)
 {
 	_last_pos = pos;
+}
+
+void
+TextBox::setTop(short y)
+{
+	Control::setTop(y);
+	setLastPos({ _left + BORDER_OFFSET, _top + BORDER_OFFSET });
+}
+
+void
+TextBox::setLeft(short x)
+{
+	Control::setLeft(x);
+	setLastPos({_left + BORDER_OFFSET, _top + BORDER_OFFSET });
 }
 
 

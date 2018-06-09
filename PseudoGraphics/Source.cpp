@@ -9,21 +9,30 @@ int main(int argc, char** argv)
 	ControlsFactory& factory = ControlsFactory::getInstance();
 
 	//create some controls with out 'enum ControlProduct' helper:
-	Control& label = factory.create(LABEL);
+	Control& f_label = factory.create(LABEL);
+	Control& f_btn = factory.create(BUTTON);
+	Control& f_tb = factory.create(TEXT_BOX);
 
-	Panel p;
+	Panel p,p2;
 	Control& panel = p;
-	p.setColor(Color::Purple, Color::Orange);
-	p.setLeft(0);
-	p.setTop(0);
+	p.setColor(Color::Purple, Color::Black);
+	p.setLeft(5);
+	p.setTop(5);
 	p.setWidth(50);
-	p.setHeight(80);
+	p.setHeight(40);
 	p.setFrameType(DOUBLE_SOLID);
 
 
-	//Button b("KING JAMES");
-	//b.setLeft(1);
-	//b.setTop(1);
+	p2.setColor(Color::Orange, Color::Black);
+	p2.setLeft(5);
+	p2.setTop(15);
+	p2.setWidth(30);
+	p2.setHeight(20);
+	p2.setFrameType(DOUBLE_SOLID);
+
+	//Button b("Click Me");
+	//b.setLeft(20);
+	//b.setTop(5);
 	//b.setColor(Color::Blue, Color::Green);
 	//p.add(&b);
 
@@ -31,11 +40,18 @@ int main(int argc, char** argv)
 	tb.setColor(Color::Black, Color::White);
 	p.add(&tb);
 
-	Label l("IM A LABEL");
-	l.setColor(Color::Cyan, Color::Red);
-	l.setLeft(10);
-	l.setTop(10);
-	p.add(&l);
+
+	TextBox tb2(10, 10, 12, 5);
+	tb2.setColor(Color::Black, Color::White);
+	p2.add(&tb2);
+
+	p.add(&p2);
+
+	//Label l("IM A LABEL");
+	//l.setColor(Color::Cyan, Color::Red);
+	//l.setLeft(10);
+	//l.setTop(10);
+	//p.add(&l);
 
 	//Label l2("IM RICK JAMES");
 	//l2.setColor(Color::Black, Color::Orange);
@@ -49,15 +65,15 @@ int main(int argc, char** argv)
 	//numBo.setTop(20);
 	//p.add(&numBo);
 
-	//string s("this is a message box");
+
+	debug(PG_DBG_INFO, "%s: tb = {%d,%d}", __FUNCTION__, tb.getLeft(), tb.getTop());
+
+	//string s("Do you really want to exit?");
 	//
 	//MyMessageBox msg(s, s);
-	//msg.setLeft(10);
-	//msg.setTop(30);
+	//msg.setLeft(20);
+	//msg.setTop(20);
 	//p.add(&msg);
-
-
-
 
 	//NumericBox numBo;
 	//numBo.setLeft(10);
@@ -66,7 +82,7 @@ int main(int argc, char** argv)
 
 
 	EventEngine e;
-	e.run(p);
+	e.run(panel);
 
 
 }
