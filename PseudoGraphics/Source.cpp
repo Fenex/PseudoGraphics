@@ -13,20 +13,22 @@ int main(int argc, char** argv)
 	Control& f_btn = factory.create(BUTTON);
 	Control& f_tb = factory.create(TEXT_BOX);
 
-	Panel p,p2;
+	Panel p;
 	Control& panel = p;
-	p.setColor(Color::Purple, Color::Black);
-	p.setLeft(5);
-	p.setTop(5);
+	p.setColor(Color::Purple, Color::Orange);
+	p.setLeft(10);
+	p.setTop(10);
 	p.setWidth(50);
-	p.setHeight(40);
+	p.setHeight(30);
 	p.setFrameType(DOUBLE_SOLID);
 
-	//Button b("Click Me");
-	//b.setLeft(20);
-	//b.setTop(5);
+	//Button b("KING JAMES");
+	//b.setLeft(1);
+	//b.setTop(1);
 	//b.setColor(Color::Blue, Color::Green);
 	//p.add(&b);
+
+	//
 	//Label l("IM A LABEL");
 	//l.setColor(Color::Cyan, Color::Red);
 	//l.setLeft(10);
@@ -39,31 +41,24 @@ int main(int argc, char** argv)
 	//l2.setTop(15);
 	//p.add(&l2);
 
-
-	//NumericBox numBo;
-	//numBo.setLeft(30);
-	//numBo.setTop(20);
-	//p.add(&numBo);
-	//string s("Do you really want to exit?");
 	//
-
 	//
 	/*NumericBox numBo(10,10);
 	panel.add(&numBo);*/
 
-	string txt("this is a message box");
+	/*string txt("this is a message box");
 	string btn("Fuck Me");
 
-	MyMessageBox msg(20, 20, btn,txt);
-	panel.add(&msg);
+	MyMessageBox msg(20, 20, btn, txt);
+	panel.add(&msg);*/
 
-	/*vector<string> options_list = { "abcd","abcde","abcdefg","123456789101112" };
+	vector<string> options_list = { "abcd","abcde","abcdefg","123456789101112" };
 	ComboBox combox(10, 10, options_list);
-	panel.add(&combox);*/
+	panel.add(&combox);
 
 
 	EventEngine e;
-	e.run(panel);
+	e.run(p);
 
 
 }

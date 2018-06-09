@@ -11,7 +11,7 @@ ComboBox::ComboBox(short top, short left,vector<string> options_list)
 	_options_list = options_list;
 	_options_list_size = _options_list.size();
 	_max_option_size = findMaxString(_options_list);
-	_width = ONE_CHAR_BUTTON_WIDTH + _max_option_size + NUMERIC_BOX_LABEL_SPACE_MARGIN;	// accomodates box's 2 buttons, label and spaces
+	_width = ONE_CHAR_BUTTON_WIDTH + _max_option_size + NUMERIC_BOX_LABEL_SPACE_MARGIN;	
 	_height = ONE_CHAR_BUTTON_HEIGHT;
 	initChildren();
 
@@ -33,11 +33,17 @@ ComboBox::findMaxString(vector<string> options_list)
 void 
 ComboBox::closeDropDownMenu()
 {
+	//remove options from display
+	_children.erase(_children.begin() + 2, _children.end());
+	//update 
+	_height -= ONE_CHAR_BUTTON_HEIGHT * _options_list.size();
+	_is_menu_open = false;
 }
 
 void 
 ComboBox::openDropDownMenu()
 {
+	
 	Button *btn_ptr = 0;
 	//add menu buttons to children. _chilren[0] & _children[1] are occupied by drop drop button and label
 	for (int i = 0, j=1 ; i < _options_list.size(); ++i, ++j) {
@@ -49,6 +55,7 @@ ComboBox::openDropDownMenu()
 	}
 	//update box's dimension to fit menu size
 	_height +=  ONE_CHAR_BUTTON_HEIGHT * _options_list.size();
+	_is_menu_open = true;
 
 }
 
@@ -93,7 +100,7 @@ ComboBox::~ComboBox()
 }
 
 bool 
-ComboBox::mousePressed(int x, int y, bool isLeft)
+ComboBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
 	if (isInside(x, y, _menu_down_button->getLeft(), _menu_down_button->getTop(), _menu_down_button->getWidth(), _menu_down_button->getHeight())) {
 		if(!_is_menu_open) openDropDownMenu();
