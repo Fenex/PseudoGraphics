@@ -18,6 +18,10 @@ ComboBox::ComboBox(short top, short left,vector<string> options_list)
 	setFrameType(SINGLE_SOLID);
 }
 
+ComboBox::~ComboBox()
+{
+}
+
 
 int
 ComboBox::findMaxString(vector<string> options_list)
@@ -39,6 +43,7 @@ ComboBox::closeDropDownMenu()
 	_height -= ONE_CHAR_BUTTON_HEIGHT * _options_list.size();
 	_is_menu_open = false;
 }
+
 
 void 
 ComboBox::openDropDownMenu()
@@ -95,17 +100,38 @@ void ComboBox::initChildren()
 
 }
 
-ComboBox::~ComboBox()
+
+bool ComboBox::findClickedItem(int x, int y)
 {
+	for (int i = 2; i < _children.size(); ++i) {
+		if (isInside(x, y, _children[i]->getLeft(), _children[i]->getTop(), _children[i]->getWidth(), _children[i]->getHeight())) {
+			_selected_val_label->setValue(_children[i]->getStringValue());
+			return true;
+		}
+	}
+	return false;
 }
 
 bool 
 ComboBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
-	if (isInside(x, y, _menu_down_button->getLeft(), _menu_down_button->getTop(), _menu_down_button->getWidth(), _menu_down_button->getHeight())) {
-		if(!_is_menu_open) openDropDownMenu();
-		else closeDropDownMenu();
-		return true;
+	Button *item_button_ptr;
+	bool item_clicked = false;
+
+	if (!_is_menu_open) {
+		if (isInside(x, y, _menu_down_button->getLeft(), _menu_down_button->getTop(), _menu_down_button->getWidth(), _menu_down_button->getHeight())) {
+			openDropDownMenu();
+			return true;
+		}
+	}
+	if (_is_menu_open) {
+		if (isInside(x, y, _menu_down_button->getLeft(), _menu_down_button->getTop(), _menu_down_button->getWidth(), _menu_down_button->getHeight())) {
+			closeDropDownMenu();
+			return true;
+		}
+		item_clicked = findClickedItem(x,y);
+		if (item_clicked) closeDropDownMenu();
+		return item_clicked;
 	}
 	return false;
 }

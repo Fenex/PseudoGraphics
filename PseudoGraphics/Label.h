@@ -15,6 +15,7 @@ class Label: public Control
 		Label();
 		Label(string);
 		string getValue();
+		virtual string getStringValue() { return value; }
 		void setValue(string);
 		void draw(Graphics& g, int x, int y, size_t z);
 		void draw(Graphics& g);

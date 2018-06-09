@@ -17,6 +17,7 @@ private:
 	int findMaxString(vector<string> options_list);
 	void openDropDownMenu();
 	void closeDropDownMenu();
+	bool findClickedItem(int x, int y);
 public:
 	//ComboBox();
 	ComboBox(short top, short left, vector<string> options_list);

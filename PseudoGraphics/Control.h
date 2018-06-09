@@ -54,6 +54,7 @@ public:
 	virtual void getAllControls(vector<Control*>* controls);
 	virtual bool canGetFocus();
 	virtual bool canBeClicked();
+	virtual string getStringValue() { return ""; };
 	virtual bool myPureFunction() = 0;
 
 	virtual void drawBorder(Graphics& g);
