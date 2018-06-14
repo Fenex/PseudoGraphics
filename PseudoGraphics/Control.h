@@ -64,6 +64,7 @@ public:
 	virtual void drawLine(char, char, char);
 	vector<Control*> getChildren();
 	void setFrameType(FrameType frame_type);
+	FrameType getFrameType();
 	void setColor(Color bg, Color fg);
 	bool isFlipped() { return _is_flipped; }
 	short getWidth();

@@ -384,3 +384,8 @@ TextBox::myPureFunction()
 {
 	return true;
 }
+
+string
+TextBox::getStringValue() {
+	return _value;
+}

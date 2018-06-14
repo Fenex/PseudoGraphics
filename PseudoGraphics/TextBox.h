@@ -24,5 +24,6 @@ public:
 	void handleDelete(COORD curr_pos);
 	void setLeft(short x);
 	void setTop(short y);
+	string getStringValue();
 };
 
