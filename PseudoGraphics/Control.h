@@ -62,6 +62,7 @@ public:
 	virtual void drawLine(char, char, char);
 	vector<Control*> getChildren();
 	void setFrameType(FrameType frame_type);
+	FrameType getFrameType();
 	void setColor(Color bg, Color fg);
 	short getWidth();
 	short getHeight();

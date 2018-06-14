@@ -323,3 +323,9 @@ Control::setFocusable(bool focusable)
 {
 	_focusable = focusable;
 }
+
+FrameType 
+Control::getFrameType()
+{
+	return _frame_type;
+}

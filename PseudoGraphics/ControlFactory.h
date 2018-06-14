@@ -10,6 +10,9 @@
 #include "NumericBox.h"
 #include "MessageBox.h"
 #include "ComboBox.h"
+#include "CheckList.h"
+#include "RadioBox.h"
+#include "NumericBox.h"
 
 typedef enum {
 	LABEL,
