@@ -73,7 +73,7 @@ debug(DebugLevel lvl, const char *format, ...) {
 	file.close();
 }
 
-Control::Control() : _focusable(true), _left(0), _top(0), _width(0), _height(0), _other(NULL) {}
+Control::Control() : _focusable(true), _left(0), _top(0), _width(0), _height(0), _other(NULL), _is_flipped(false) {}
 
 
 Control::~Control() {}
@@ -217,6 +217,14 @@ isInValidRange(short val) {
 	return false;
 }
 
+void 
+Control::flipColor()
+{
+	Color temp = _background;
+	_background = _foreground;
+	_foreground = temp;
+}
+
 //todo: turn these next 2 functions into one
 void 
 Control::setTop(short y)
@@ -286,6 +294,21 @@ Control::add(Control* child)
 	else {
 		debug(PG_DBG_ERROR, "%s: trying to add a child which is null.", fn);
 	}
+}
+
+bool
+Control::mouseHover(int x, int y, Graphics & g)
+{
+	/*char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);*/
+	for each (Control* child in _children)
+	{
+		if (isInside(x, y, child->_left, child->_top, child->_width, child->_height))
+		{
+			return child->mouseHover(x, y, g);
+		}
+	}
+	return false;
 }
 
 bool 

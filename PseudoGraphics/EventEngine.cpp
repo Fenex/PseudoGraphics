@@ -125,10 +125,14 @@ EventEngine::run(Control& control)
 			auto coord = record.Event.MouseEvent.dwMousePosition;
 			auto x = coord.X;
 			auto y = coord.Y;
+			if (control.mouseHover(x, y, _graphics)) 
+			{
+				redraw = true;
+			}
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
 				debug(PG_DBG_INFO, "%s: MOUSE_EVENT: at {%d,%d} isLeftClick=%d.", fn, x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
-				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED, _graphics))
+				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED, _graphics) )
 				{
 					debug(PG_DBG_INFO, "%s: redraw.", fn);
 					redraw = true;
