@@ -74,6 +74,7 @@ public:
 	void add(Control* child);
 	void setClickable(bool clickable);
 	void setFocusable(bool focusable);
+	void flipColor();
 
 
 	~Control();

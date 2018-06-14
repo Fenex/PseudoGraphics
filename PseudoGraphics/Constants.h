@@ -28,11 +28,12 @@ static short BORDER_OFFSET = 1;
 #define CHAR_RESET '\x0'
 
 //list symbols:
+#define SYM_MARKER_POS (1)
 #define SYM_BULLET "( )"
 #define SYM_MARKER "<---"
-#define SYM_SPACE ' '
-#define SYM_CLEAR  "    "
-#define SYM_CHOICE '*'
+#define SYM_SPACE " "
+#define SYM_CHOICE_RADIO '*'
+#define SYM_CHOICE_CHECKLIST 'X'
 #define SYM_CHOICE_OFFSET (3)
 #define PROMPT_OFFSET (36)
 

@@ -22,11 +22,16 @@ int main(int argc, char** argv)
 	p.setHeight(30);
 	p.setFrameType(DOUBLE_SOLID);
 
-	//Button b("KING JAMES");
-	//b.setLeft(1);
-	//b.setTop(1);
-	//b.setColor(Color::Blue, Color::Green);
-	//p.add(&b);
+	Button b("KING JAMES");
+	b.setLeft(35);
+	b.setTop(1);
+	b.setColor(Color::Red, Color::Black);
+	p.add(&b);
+
+	TextBox tb(2,20, 12, 5);
+	tb.setColor(Color::Black, Color::White);
+	p.add(&tb);
+
 
 	//
 	//Label l("IM A LABEL");
@@ -52,13 +57,40 @@ int main(int argc, char** argv)
 	MyMessageBox msg(20, 20, btn, txt);
 	panel.add(&msg);*/
 
-	vector<string> options_list = { "abcd","abcde","abcdefg","123456789101112" };
-	ComboBox combox(10, 10, options_list);
-	panel.add(&combox);
+	//vector<string> options_list = { "abcd","abcde","abcdefg","123456789101112" };
+	//ComboBox combox(10, 10, options_list);
+	//panel.add(&combox);
+
+
+	PgList list;
+	list.setLeft(2);
+	list.setTop(2);
+	list.setWidth(30);
+	list.setHeight(10);
+	list.setColor(Color::Blue, Color::Orange);
+	
+	vector<string> item_list = { "hey", "ho", "wee" , "woo" };
+	for each (string item in item_list)
+	{
+		list.addItem(item);
+	}
+	list.getChildAt(0)->flipColor();
+
+	p.add(&list);
+
+	Label l2("IM RICK JAMES");
+	l2.setColor(Color::Black, Color::Orange);
+	l2.setLeft(12);
+	l2.setTop(15);
+	p.add(&l2);
+
+
 
 
 	EventEngine e;
 	e.run(p);
 
+
+	//free memory here:
 
 }

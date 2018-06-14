@@ -217,6 +217,14 @@ isInValidRange(short val) {
 	return false;
 }
 
+void
+Control::flipColor()
+{
+	Color temp = _background;
+	_background = _foreground;
+	_foreground = temp;
+}
+
 //todo: turn these next 2 functions into one
 void 
 Control::setTop(short y)
@@ -291,7 +299,7 @@ Control::add(Control* child)
 bool 
 Control::mousePressed(int x, int y, bool isLeft, Graphics& g) {
 	const char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);
+	//debug(PG_DBG_INFO, "%s: called.", fn);
 	
 	if (isLeft)
 	{
@@ -299,7 +307,7 @@ Control::mousePressed(int x, int y, bool isLeft, Graphics& g) {
 		{
 			if (isInside(x, y, child->_left, child->_top, child->_width, child->_height))
 			{
-				debug(PG_DBG_INFO, "%s: found the clicked child.", fn);
+				//debug(PG_DBG_INFO, "%s: found the clicked child.", fn);
 				setFocus(*child);
 				return child->mousePressed(x, y, isLeft, g);
 			}

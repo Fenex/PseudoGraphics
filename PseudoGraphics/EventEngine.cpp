@@ -60,11 +60,6 @@ EventEngine::run(Control& control)
 	while (true)
 	{
 		_graphics.setCursorVisibility(false);
-		//save last cursor position before we draw. this will help us get to the exact cursor pos
-		//we were if we're writing inside of a text box (e.g):
-		//COORD last_cur_pos = _graphics.GetConsoleCursorPosition();
-
-		//debug(PG_DBG_INFO, "%s: last_cur_pos:{%d,%d}.", fn, last_cur_pos.X, last_cur_pos.Y);
 
 		if (redraw == true) {
 
@@ -75,11 +70,6 @@ EventEngine::run(Control& control)
 			redraw = false;
 		}
 		
-		//debug(PG_DBG_INFO, "%s: pos after draw:{%d,%d}.", fn, _graphics.GetConsoleCursorPosition().X, _graphics.GetConsoleCursorPosition().Y);
-
-		//get back to last cur position:
-		//_graphics.moveTo(last_cur_pos.X, last_cur_pos.Y);
-
 		auto focused_control = Control::getFocus();
 
 		//if any TextBox is focused, show cursor and set it to the last coord it was on:
@@ -127,10 +117,9 @@ EventEngine::run(Control& control)
 			auto y = coord.Y;
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
-				debug(PG_DBG_INFO, "%s: MOUSE_EVENT: at {%d,%d} isLeftClick=%d.", fn, x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
+				debug(PG_DBG_INFO, "%s: MOUSE_CLICKED: at {%d,%d} isLeftClick=%d.", fn, x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
 				if (control.mousePressed(x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED, _graphics))
 				{
-					debug(PG_DBG_INFO, "%s: redraw.", fn);
 					redraw = true;
 				}
 			}
