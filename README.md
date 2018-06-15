@@ -97,3 +97,21 @@ int main(int argc, char** argv)
 
 Will look like this:<br>
 ![main_demo](https://user-images.githubusercontent.com/21342315/41191625-b40cc284-6bf2-11e8-82d5-1a0363e9af5a.png)
+
+
+### Issue with running our program?
+Missing .exe file for PseudoGraphics? make sure the PseudoGraphics project Properties->Configuration Type is Application(.exe)
+Can't run the tests? read the section below.
+
+
+### Unit Testings
+
+We used Google Tests framework to perform our unit testings. Here's the official documentation for [how to set up GoogleTests in Visuak Studio 2017](https://docs.microsoft.com/en-us/visualstudio/test/how-to-use-google-test-for-cpp). You can also use the framework independently with no restriction to any IDE with [this guide](http://www.bogotobogo.com/cplusplus/google_unit_test_gtest.php) if you like.<br> [Here](https://stackoverflow.com/questions/50240498/issue-with-google-test-in-visual-studio-2017) is a common linker issue you might experience after trying to run your test cases. We recommand set up the Configuration Type (Project Properties->General->Configuration Type) of your tested program as Static Lib (.lib) and only then run your tests.
+
+
+How to run the tests?
+
+1. In PsuedoGraphic Solution, right click PseudoGraphics project->Properties->General->Configuration Type-> switch from Application(.exe) to Static Lib (.lib)
+2. In PsuedoGraphic Solution, right click UnitTests project->Properties->Linker->General->Additional Library Directories-> <Edit..> -> New Line (ctrl + insert_) -> browse to the PseudoGraphics project (in our case path\to\VisualStudioProjects\PseudoGraphics\PseudoGraphics) -> click Ok
+3. clean solution & build again
+4. On visual studio top toolbar go to Tests -> Windows -> Tests Explorer (Ctrl+E). The test explorer will open up on your right side of the screen. Click 'Runn All' and u're done.
