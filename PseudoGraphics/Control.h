@@ -34,6 +34,7 @@ protected:
 	short _width, _height;
 	bool _focusable;
 	bool _clickable;
+	bool _is_flipped;
 	FrameType _frame_type;
 	Control *_other;	//enable a component to refrence another by setting a pointer to it using setter. default is NULL
 	vector<Control*> _children;
@@ -47,6 +48,7 @@ public:
 	
 	//virtual void draw(Graphics& g, int x, int y, size_t z);
 	virtual void draw(Graphics& g);
+	virtual bool mouseHover(int x, int y, Graphics& g);
 	virtual bool mousePressed(int x, int y, bool isLeft, Graphics& g);
 	virtual void keyDown(int keyCode, char character, Graphics& g) {};
 	virtual short getLeft() { return _left; };
@@ -64,8 +66,12 @@ public:
 	void setFrameType(FrameType frame_type);
 	FrameType getFrameType();
 	void setColor(Color bg, Color fg);
+	bool isFlipped() { return _is_flipped; }
 	short getWidth();
 	short getHeight();
+	Color getForeground() { return _foreground; }
+	Color getBackground() { return _background; }
+	void flipColor();
 	virtual void setTop(short x);
 	virtual void setLeft(short y);
 	void setWidth(short x);
@@ -74,7 +80,6 @@ public:
 	void add(Control* child);
 	void setClickable(bool clickable);
 	void setFocusable(bool focusable);
-	void flipColor();
 
 
 	~Control();

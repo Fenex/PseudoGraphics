@@ -101,7 +101,8 @@ void ComboBox::initChildren()
 }
 
 
-bool ComboBox::findClickedItem(int x, int y)
+bool 
+ComboBox::findClickedItem(int x, int y)
 {
 	for (int i = 2; i < _children.size(); ++i) {
 		if (isInside(x, y, _children[i]->getLeft(), _children[i]->getTop(), _children[i]->getWidth(), _children[i]->getHeight())) {
@@ -132,6 +133,23 @@ ComboBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 		item_clicked = findClickedItem(x,y);
 		if (item_clicked) closeDropDownMenu();
 		return item_clicked;
+	}
+	return false;
+}
+
+bool 
+ComboBox::mouseHover(int x, int y, Graphics & g)
+{
+	char* fn = __FUNCTION__;
+	debug(PG_DBG_INFO, "%s: called.", fn);
+	if (_is_menu_open) {
+		for (int i = 2; i < _children.size(); ++i) {
+			if (isInside(x, y, _children[i]->getLeft(), _children[i]->getTop(), _children[i]->getWidth(), _children[i]->getHeight())) {
+				_children[i]->flipColor();
+				return true;
+			}
+		}
+		return false;
 	}
 	return false;
 }

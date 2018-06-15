@@ -23,6 +23,7 @@ public:
 	ComboBox(short top, short left, vector<string> options_list);
 	~ComboBox();
 	virtual bool mousePressed(int x, int y, bool isLeft, Graphics& g);
+	virtual bool mouseHover(int x, int y, Graphics& g);
 	bool myPureFunction() { return false; }
 
 	/*void draw(Graphics&);
