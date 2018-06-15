@@ -1,7 +1,7 @@
 #pragma once
 #include "PgList.h"
 
-class CheckList //: public PgList
+class CheckList : public PgList
 {
 public:
 	CheckList();

@@ -16,7 +16,7 @@ public:
 	virtual bool mousePressed(int x, int y, bool isLeft, Graphics& g);
 	virtual void keyDown(int keyCode, char character, Graphics& g) ;
 	virtual bool addItem(string item);
-	virtual bool removeSelectedItem();	string getSelectedItemValue();	int getSelectedItemPos();	int clickedChildIndex(const short x, const short y);
+	virtual bool removeSelectedItem(int idx);	virtual int getSelectedItemPos() { return -1; }	int clickedChildIndex(const short x, const short y);
 	bool isValidIndex(int idx);
 	Button* getChildAt(int pos);
 	Button* initButton(string value);

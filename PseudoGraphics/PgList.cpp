@@ -1,10 +1,10 @@
 #include "PgList.h"
 
 
-PgList::PgList() : Control(), multiple_choices(TRUE), select_sym(SYM_CHOICE_CHECKLIST), focused_item_idx(-1)
+PgList::PgList() : Control(), multiple_choices(true), select_sym(SYM_CHOICE_CHECKLIST), focused_item_idx(-1)
 {
-	setFocusable(TRUE);
-	setClickable(TRUE);
+	setFocusable(true);
+	setClickable(true);
 	setFrameType(SINGLE_SOLID);
 	_focusable = true;
 	_clickable = true;
@@ -53,8 +53,19 @@ PgList::draw(Graphics& g)
 }
 
 bool
-PgList::removeSelectedItem()
-{
+PgList::removeSelectedItem(int idx)
+{	
+	if (!_children.empty()) {
+		if (isValidIndex(idx)) {
+			selected_items.at(idx) = false;
+			string unselect = static_cast<Button*>(_children.at(idx))->getValue();
+			unselect[SYM_MARKER_POS] = ' ';
+			static_cast<Button*>(_children.at(idx))->setValue(unselect);
+		}
+	}
+	else {
+		return false;
+	}
 	return true;
 }
 
@@ -96,13 +107,17 @@ PgList::keyDown(int keyCode, char character, Graphics& g)
 		break;
 	case VK_NUMPAD8:
 	case VK_UP:
-		if (focused_item_idx - 1 >= 0)
-			setFocusedItem(focused_item_idx-1);
+		if (focused_item_idx == 0)
+			setFocusedItem(_children.size() - 1);
+		else
+			setFocusedItem(focused_item_idx - 1);
 		return;
 	case VK_NUMPAD2:
 	case VK_DOWN:
-		if (focused_item_idx + 1 < _children.size() )
-			setFocusedItem(focused_item_idx+1);
+		if (focused_item_idx == _children.size() - 1)
+			setFocusedItem(0);
+		else
+			setFocusedItem(focused_item_idx + 1);
 		return;
 
 	case VK_RETURN:
@@ -125,19 +140,6 @@ PgList::clearSelection()
 		child->setValue(selected);
 	}
 	return;
-}
-
-int
-PgList::getSelectedItemPos()
-{
-	return 1;
-}
-
-string
-PgList::getSelectedItemValue()
-{
-	return "default value";
-
 }
 
 bool

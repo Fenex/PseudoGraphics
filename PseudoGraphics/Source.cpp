@@ -62,7 +62,8 @@ int main(int argc, char** argv)
 	//panel.add(&combox);
 
 
-	PgList list;
+	
+	RadioBox list;
 	list.setLeft(2);
 	list.setTop(2);
 	list.setWidth(30);

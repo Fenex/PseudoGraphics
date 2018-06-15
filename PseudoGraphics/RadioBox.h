@@ -1,7 +1,6 @@
 #pragma once
-#include "Control.h"
-class RadioBox:
-	public Control
+#include "PgList.h"
+class RadioBox: public PgList
 {
 public:
 	RadioBox();

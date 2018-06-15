@@ -2,8 +2,10 @@
 
 
 
-RadioBox::RadioBox()
+RadioBox::RadioBox() : PgList()
 {
+	multiple_choices = false;
+	select_sym = SYM_CHOICE_RADIO;
 }
 
 

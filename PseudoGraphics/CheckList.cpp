@@ -2,8 +2,9 @@
 
 
 
-CheckList::CheckList()
+CheckList::CheckList() : PgList()
 {
+
 }
 
 
