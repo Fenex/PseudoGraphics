@@ -4,9 +4,10 @@
 Label::Label() : Control()
 {
 	char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);
+	//debug(PG_DBG_INFO, "%s: called.", fn);
 	setValue(DEFAULT_LABEL_STR);
 	_frame_type = NONE;
+	setFocusable(false);
 }
 
 Label::Label(string value) : 

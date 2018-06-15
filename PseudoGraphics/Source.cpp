@@ -74,7 +74,6 @@ int main(int argc, char** argv)
 	{
 		list.addItem(item);
 	}
-	list.getChildAt(0)->flipColor();
 
 	p.add(&list);
 

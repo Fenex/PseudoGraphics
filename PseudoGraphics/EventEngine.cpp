@@ -76,7 +76,7 @@ EventEngine::run(Control& control)
 		if (isATextBox(focused_control))
 		{
 			_graphics.setCursorVisibility(true);
-			debug(PG_DBG_INFO, "%s: tb is focused. moving to {%d,%d}", fn, static_cast<TextBox*>(Control::getFocus())->getLastPos().X, static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);
+			//debug(PG_DBG_INFO, "%s: tb is focused. moving to {%d,%d}", fn, static_cast<TextBox*>(Control::getFocus())->getLastPos().X, static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);
 			_graphics.moveTo(
 				static_cast<TextBox*>(Control::getFocus())->getLastPos().X,
 				static_cast<TextBox*>(Control::getFocus())->getLastPos().Y);

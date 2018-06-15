@@ -1,7 +1,7 @@
 #include "PgList.h"
 
 
-PgList::PgList() : Control(), _multiple_choices(TRUE)
+PgList::PgList() : Control(), multiple_choices(TRUE), select_sym(SYM_CHOICE_CHECKLIST), focused_item_idx(-1)
 {
 	setFocusable(TRUE);
 	setClickable(TRUE);
@@ -39,6 +39,7 @@ PgList::addItem(string item)
 	string fixed_item;
 	fixed_item.append(SYM_BULLET).append(SYM_SPACE).append(item);
 	_children.push_back(initButton(fixed_item));
+	selected_items.push_back(false);
 	return true;
 }
 
@@ -57,6 +58,14 @@ PgList::removeSelectedItem()
 	return true;
 }
 
+void
+PgList::setFocusedItem(const int item_idx)
+{
+	flipColorsAt(focused_item_idx);
+	focused_item_idx = item_idx;
+	flipColorsAt(focused_item_idx);
+}
+
 bool
 PgList::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
@@ -66,6 +75,12 @@ PgList::mousePressed(int x, int y, bool isLeft, Graphics& g)
 	}
 
 	int item_idx = clickedChildIndex(x, y);
+	if (item_idx != -1)
+	{
+		if(focused_item_idx != item_idx)
+			setFocusedItem(item_idx);
+		setSelectedItem(item_idx, select_sym);
+	}
 
 	return true;
 }
@@ -73,7 +88,31 @@ PgList::mousePressed(int x, int y, bool isLeft, Graphics& g)
 void
 PgList::keyDown(int keyCode, char character, Graphics& g)
 {
+	debug(PG_DBG_INFO, "%s: focused_item_idx=%d.", __FUNCTION__, focused_item_idx);
+	switch (keyCode)
+	{
+	case VK_TAB:
 
+		break;
+	case VK_NUMPAD8:
+	case VK_UP:
+		if (focused_item_idx - 1 >= 0)
+			setFocusedItem(focused_item_idx-1);
+		return;
+	case VK_NUMPAD2:
+	case VK_DOWN:
+		if (focused_item_idx + 1 < _children.size() )
+			setFocusedItem(focused_item_idx+1);
+		return;
+
+	case VK_RETURN:
+	case VK_SPACE:
+		setSelectedItem(focused_item_idx, select_sym);
+		return;
+
+	default:
+		break;
+	}
 }
 
 void
@@ -113,14 +152,20 @@ PgList::setSelectedItem(const int pos, char symbol)
 
 	if (isValidIndex(pos))
 	{
-		if (_multiple_choices == FALSE)
+		if (multiple_choices == FALSE)
 		{
 			clearSelection();
 		}
-
+		
 		string selected = getChildAt(pos)->getValue();
-		selected[SYM_MARKER_POS] = symbol;
-
+		if (selected[SYM_MARKER_POS] == symbol) {
+			selected[SYM_MARKER_POS] = ' ';
+			selected_items.at(pos) = false;
+		}
+		else {
+			selected[SYM_MARKER_POS] = symbol;
+			selected_items.at(pos) = true;
+		}
 		getChildAt(pos)->setValue(selected);
 	}
 }
@@ -128,18 +173,21 @@ PgList::setSelectedItem(const int pos, char symbol)
 int
 PgList::clickedChildIndex(const short x, const short y)
 {
-	if (isInside(x, y, getLeft() + BORDER_OFFSET, getTop() + BORDER_OFFSET, getWidth() - (BORDER_OFFSET * 2), getTop() - (BORDER_OFFSET * 2)))
+	int child_idx;
+	if (isInside(x, y, 
+		getLeft() + BORDER_OFFSET, 
+		getTop() + BORDER_OFFSET,
+		getWidth() - (BORDER_OFFSET * 2), 
+		getTop() - (BORDER_OFFSET * 2) - 2 ))
 	{
-		//do stuff..	
+		child_idx = y - getTop() - (BORDER_OFFSET*2);
+		if (child_idx < 0 || child_idx > _children.size() - 1)
+		{
+			child_idx = -1;
+		}
 	}
 
-	return -1;
-}
-
-bool
-PgList::isMouseOnSelectedItem(const short x, const short y)
-{
-	return true;
+	return child_idx;
 }
 
 Button*
@@ -157,6 +205,7 @@ PgList::flipColorsAt(int item_pos)
 {
 	if (isValidIndex(item_pos) == true)
 	{
+
 		_children.at(item_pos)->flipColor();
 	}
 }
