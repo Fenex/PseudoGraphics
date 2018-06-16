@@ -1,3 +1,4 @@
+
 # Pseudo Graphics Library
 
 **Head Lecturer & Tutor** </br>
@@ -27,7 +28,14 @@ Pseudo Graphics is a static library API for developing User Interface on windows
 #### Button<br>![btn](https://user-images.githubusercontent.com/21342315/41190528-89831ad4-6be0-11e8-9585-12552145c034.png) ![btnclicked](https://user-images.githubusercontent.com/21342315/41190534-d4b6aa34-6be0-11e8-8301-a6f41f9f5d2d.png)<br>
 #### TextBox<br> ![tb](https://user-images.githubusercontent.com/21342315/41190544-0addcd4a-6be1-11e8-9d7d-99e9b02c2c50.png)<br>
 #### NumericBox<br>![low](https://user-images.githubusercontent.com/21342315/41190550-4e3363c0-6be1-11e8-8ec3-8418c2b2b52e.png)![mid](https://user-images.githubusercontent.com/21342315/41190549-411204da-6be1-11e8-851b-e87c302c0932.png)![high](https://user-images.githubusercontent.com/21342315/41190554-5668e31c-6be1-11e8-8696-080efbbeb73a.png)<br>
-#### MessageBox<br>![mb](https://user-images.githubusercontent.com/21342315/41190587-2b0ce3b6-6be2-11e8-9bbf-4a8137c436ab.png)<br>
+#### MessageBox<br>![mb](https://user-images.githubusercontent.com/21342315/41190587-2b0ce3b6-6be2-11e8-9bbf-4a8137c436ab.png)
+#### ComboBox
+![cb](https://user-images.githubusercontent.com/21342315/41501498-d4074ede-71a5-11e8-8e0d-e60055e70d37.png)<br>
+#### RadioBox
+![radiobox](https://user-images.githubusercontent.com/21342315/41501452-e7dff006-71a4-11e8-8df8-4f00c2a88feb.png)<br>
+#### CheckList
+![checklist](https://user-images.githubusercontent.com/21342315/41501478-48fcab90-71a5-11e8-8911-e055f7079273.png)<br>
+
 #### Panel<br>![panel](https://user-images.githubusercontent.com/21342315/41190630-0956cef2-6be3-11e8-9abf-131bf7dce667.png)
 
 ## Basic Synthax
