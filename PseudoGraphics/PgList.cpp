@@ -77,6 +77,12 @@ PgList::setFocusedItem(const int item_idx)
 	flipColorsAt(focused_item_idx);
 }
 
+void 
+PgList::resetFocusIdx()
+{
+	focused_item_idx = -1;
+}
+
 bool
 PgList::mousePressed(int x, int y, bool isLeft, Graphics& g)
 {
@@ -103,21 +109,32 @@ PgList::keyDown(int keyCode, char character, Graphics& g)
 	switch (keyCode)
 	{
 	case VK_TAB:
-
-		break;
-	case VK_NUMPAD8:
-	case VK_UP:
-		if (focused_item_idx == 0)
-			setFocusedItem(_children.size() - 1);
-		else
-			setFocusedItem(focused_item_idx - 1);
-		return;
+		if (focused_item_idx == -1) {
+			setFocusedItem(0);
+			break;
+		}
+		else if(focused_item_idx < _children.size() - 1) {
+			//fallthrought
+		}
+		//else {
+		//	flipColorsAt(focused_item_idx);
+		//	focused_item_idx = -1;
+		//	break;
+		//}
 	case VK_NUMPAD2:
 	case VK_DOWN:
 		if (focused_item_idx == _children.size() - 1)
 			setFocusedItem(0);
 		else
 			setFocusedItem(focused_item_idx + 1);
+		return;
+
+	case VK_NUMPAD8:
+	case VK_UP:
+		if (focused_item_idx == 0)
+			setFocusedItem(_children.size() - 1);
+		else
+			setFocusedItem(focused_item_idx - 1);
 		return;
 
 	case VK_RETURN:
@@ -210,4 +227,10 @@ PgList::flipColorsAt(int item_pos)
 
 		_children.at(item_pos)->flipColor();
 	}
+}
+
+const int 
+PgList::getFocusedIdx() 
+{
+	return focused_item_idx;
 }

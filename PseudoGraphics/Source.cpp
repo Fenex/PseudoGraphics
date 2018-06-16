@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 	p.setHeight(30);
 	p.setFrameType(DOUBLE_SOLID);
 
-	/*Button b("KING JAMES");
+	Button b("KING JAMES");
 	b.setLeft(35);
 	b.setTop(1);
 	b.setColor(Color::Red, Color::Black);
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 
 	TextBox tb(2,20, 12, 5);
 	tb.setColor(Color::Black, Color::White);
-	p.add(&tb);*/
+	p.add(&tb);
 
 
 	//
@@ -40,11 +40,11 @@ int main(int argc, char** argv)
 	//l.setTop(10);
 	//p.add(&l);
 
-	//Label l2("IM RICK JAMES");
-	//l2.setColor(Color::Black, Color::Orange);
-	//l2.setLeft(12);
-	//l2.setTop(15);
-	//p.add(&l2);
+	Label l2("IM RICK JAMES");
+	l2.setColor(Color::Black, Color::Orange);
+	l2.setLeft(12);
+	l2.setTop(15);
+	p.add(&l2);
 
 	//
 	//
@@ -57,26 +57,26 @@ int main(int argc, char** argv)
 	MyMessageBox msg(20, 20, btn, txt);
 	panel.add(&msg);*/
 
-	vector<string> options_list = { "abcd","abcde","abcdefg","123456789101112" };
-	ComboBox combox(10, 10, options_list);
-	panel.add(&combox);
+	//vector<string> options_list = { "abcd","abcde","abcdefg","123456789101112" };
+	//ComboBox combox(10, 10, options_list);
+	//panel.add(&combox);
 
 
 	
-	//RadioBox list;
-	//list.setLeft(2);
-	//list.setTop(2);
-	//list.setWidth(30);
-	//list.setHeight(10);
-	//list.setColor(Color::Blue, Color::Orange);
-	//
-	//vector<string> item_list = { "hey", "ho", "wee" , "woo" };
-	//for each (string item in item_list)
-	//{
-	//	list.addItem(item);
-	//}
+	RadioBox list;
+	list.setLeft(2);
+	list.setTop(2);
+	list.setWidth(30);
+	list.setHeight(10);
+	list.setColor(Color::Blue, Color::Orange);
+	
+	vector<string> item_list = { "hey", "ho", "wee" , "woo" };
+	for each (string item in item_list)
+	{
+		list.addItem(item);
+	}
 
-	//p.add(&list);
+	p.add(&list);
 
 	//Label l2("IM RICK JAMES");
 	//l2.setColor(Color::Black, Color::Orange);

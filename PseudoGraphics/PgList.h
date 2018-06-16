@@ -23,6 +23,8 @@ public:
 	void setSelectedItem(const int pos, char symbol);	void clearSelection();
 	void flipColorsAt(int item_pos);
 	void setFocusedItem(const int item_idx);
+	void resetFocusIdx();
+	const int getFocusedIdx();
 	void add(Control* child) {} //use addItem instead
 	bool myPureFunction() { return true; }
 

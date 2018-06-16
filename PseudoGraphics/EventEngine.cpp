@@ -1,5 +1,5 @@
 #include "EventEngine.h"
-#include "TextBox.h"
+#include "ControlFactory.h"
 #include <vector>
 #include <algorithm>
 using namespace std;
@@ -9,6 +9,30 @@ EventEngine::EventEngine(DWORD input, DWORD output)
 {
 	GetConsoleMode(_console, &_consoleMode);
 	SetConsoleMode(_console, ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
+}
+
+static void
+handleListFocus(Control* control)
+{
+	if (static_cast<PgList*>(control)->getFocusedIdx() == control->getChildren().size() - 1){
+		static_cast<PgList*>(control)->flipColorsAt(control->getChildren().size() - 1);
+		static_cast<PgList*>(control)->resetFocusIdx();
+	}
+}
+
+static bool
+canStillNavigate(Control* control)
+{
+	return (static_cast<PgList*>(control)->getFocusedIdx() == control->getChildren().size() - 1) ? false : true;
+}
+
+
+static bool
+isAList(Control* control)
+{
+	if (dynamic_cast<RadioBox*>(control) != NULL || dynamic_cast<CheckList*>(control) != NULL)
+		return true;
+	return false;
 }
 
 static bool
@@ -99,7 +123,20 @@ EventEngine::run(Control& control)
 				auto chr = record.Event.KeyEvent.uChar.AsciiChar;
 				if (code == VK_TAB)
 				{
-					moveFocus(control, focused_control);
+					if (isAList(focused_control)) {
+						if (canStillNavigate(focused_control)) {
+							focused_control->keyDown(code, chr, _graphics);
+						}
+						else {
+							handleListFocus(focused_control);
+							moveFocus(control, focused_control);
+						}
+						
+					}
+					else {
+						moveFocus(control, focused_control);
+					}
+					
 				}
 				else
 				{
@@ -115,10 +152,7 @@ EventEngine::run(Control& control)
 			auto coord = record.Event.MouseEvent.dwMousePosition;
 			auto x = coord.X;
 			auto y = coord.Y;
-			//if (control.mouseHover(x, y, _graphics)) 
-			//{
-			//	redraw = true;
-			//}
+
 			if (button == FROM_LEFT_1ST_BUTTON_PRESSED || button == RIGHTMOST_BUTTON_PRESSED)
 			{
 				debug(PG_DBG_INFO, "%s: MOUSE_CLICKED: at {%d,%d} isLeftClick=%d.", fn, x, y, button == FROM_LEFT_1ST_BUTTON_PRESSED);
