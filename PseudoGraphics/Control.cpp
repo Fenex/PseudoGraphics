@@ -296,20 +296,20 @@ Control::add(Control* child)
 	}
 }
 
-bool
-Control::mouseHover(int x, int y, Graphics & g)
-{
-	/*char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);*/
-	for each (Control* child in _children)
-	{
-		if (isInside(x, y, child->_left, child->_top, child->_width, child->_height))
-		{
-			return child->mouseHover(x, y, g);
-		}
-	}
-	return false;
-}
+//bool
+//Control::mouseHover(int x, int y, Graphics & g)
+//{
+//	/*char* fn = __FUNCTION__;
+//	debug(PG_DBG_INFO, "%s: called.", fn);*/
+//	for each (Control* child in _children)
+//	{
+//		if (isInside(x, y, child->_left, child->_top, child->_width, child->_height))
+//		{
+//			return child->mouseHover(x, y, g);
+//		}
+//	}
+//	return false;
+//}
 
 bool 
 Control::mousePressed(int x, int y, bool isLeft, Graphics& g) {

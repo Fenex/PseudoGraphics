@@ -48,7 +48,7 @@ public:
 	
 	//virtual void draw(Graphics& g, int x, int y, size_t z);
 	virtual void draw(Graphics& g);
-	virtual bool mouseHover(int x, int y, Graphics& g);
+	//virtual bool mouseHover(int x, int y, Graphics& g);
 	virtual bool mousePressed(int x, int y, bool isLeft, Graphics& g);
 	virtual void keyDown(int keyCode, char character, Graphics& g) {};
 	virtual short getLeft() { return _left; };

@@ -8,6 +8,7 @@ private:
 	//string _options_string_array;
 	int _drop_down_menu_width, _drop_down_menu_height;
 	int _options_list_size, _max_option_size;
+	int _selected_item;
 	bool _is_menu_open;
 	vector<string> _options_list;
 	Button* _menu_down_button;
@@ -23,7 +24,8 @@ public:
 	ComboBox(short top, short left, vector<string> options_list);
 	~ComboBox();
 	virtual bool mousePressed(int x, int y, bool isLeft, Graphics& g);
-	virtual bool mouseHover(int x, int y, Graphics& g);
+	virtual void keyDown(int keyCode, char character, Graphics& g);
+	//virtual bool mouseHover(int x, int y, Graphics& g);
 	bool myPureFunction() { return false; }
 
 	/*void draw(Graphics&);

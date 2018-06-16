@@ -5,6 +5,7 @@
 //TODO: add addItem option to class
 ComboBox::ComboBox(short top, short left,vector<string> options_list)
 {
+	_selected_item = 1;		// 1 - no item selected yet since _children[1] is occupied by selection label
 	_is_menu_open = false;
 	_top = top;
 	_left = left;
@@ -58,6 +59,9 @@ ComboBox::openDropDownMenu()
 		btn_ptr->setWidth(_width);
 		btn_ptr->setColor(Color::Black, Color::Orange);
 	}
+	if (_selected_item > 1 && _selected_item < _children.size()) {
+		_children[_selected_item]->flipColor();
+	}
 	//update box's dimension to fit menu size
 	_height +=  ONE_CHAR_BUTTON_HEIGHT * _options_list.size();
 	_is_menu_open = true;
@@ -106,6 +110,7 @@ ComboBox::findClickedItem(int x, int y)
 {
 	for (int i = 2; i < _children.size(); ++i) {
 		if (isInside(x, y, _children[i]->getLeft(), _children[i]->getTop(), _children[i]->getWidth(), _children[i]->getHeight())) {
+			_selected_item = i;
 			_selected_val_label->setValue(_children[i]->getStringValue());
 			return true;
 		}
@@ -137,21 +142,62 @@ ComboBox::mousePressed(int x, int y, bool isLeft, Graphics& g)
 	return false;
 }
 
-bool 
-ComboBox::mouseHover(int x, int y, Graphics & g)
+void
+ComboBox::keyDown(int keyCode, char character, Graphics & g)
 {
-	char* fn = __FUNCTION__;
-	debug(PG_DBG_INFO, "%s: called.", fn);
-	if (_is_menu_open) {
-		for (int i = 2; i < _children.size(); ++i) {
-			if (isInside(x, y, _children[i]->getLeft(), _children[i]->getTop(), _children[i]->getWidth(), _children[i]->getHeight())) {
-				_children[i]->flipColor();
-				return true;
-			}
+	if (!_is_menu_open) return;
+	switch (keyCode)
+	{
+	case VK_TAB:
+		break;
+	case VK_NUMPAD8:
+	case VK_UP:
+		if (_selected_item - 1 > 1) {
+			_children[_selected_item]->flipColor();
+			_children[--_selected_item]->flipColor();
 		}
-		return false;
+		return;
+	case VK_NUMPAD2:
+	case VK_DOWN:
+		//first item selected
+		if (_selected_item == 1 && _children.size() > 2) {
+			_children[++_selected_item]->flipColor();
+		}
+		else if (_selected_item + 1 < _children.size()) {
+			_children[_selected_item]->flipColor();
+			_children[++_selected_item]->flipColor();
+		}
+		return;
+	case VK_RETURN:
+		if (_selected_item > 1) {
+			_selected_val_label->setValue(_children[_selected_item]->getStringValue());
+			closeDropDownMenu();
+			return;
+		}
+		break;
+	case VK_SPACE:
+		return;
+
+	default:
+		break;
 	}
-	return false;
 }
+
+//bool 
+//ComboBox::mouseHover(int x, int y, Graphics & g)
+//{
+//	char* fn = __FUNCTION__;
+//	debug(PG_DBG_INFO, "%s: called.", fn);
+//	if (_is_menu_open) {
+//		for (int i = 2; i < _children.size(); ++i) {
+//			if (isInside(x, y, _children[i]->getLeft(), _children[i]->getTop(), _children[i]->getWidth(), _children[i]->getHeight())) {
+//				_children[i]->flipColor();
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//	return false;
+//}
 
 
