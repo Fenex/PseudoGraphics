@@ -76,7 +76,13 @@ debug(DebugLevel lvl, const char *format, ...) {
 Control::Control() : _focusable(true), _left(0), _top(0), _width(0), _height(0), _other(NULL), _is_flipped(false) {}
 
 
-Control::~Control() {}
+Control::~Control() {
+	for each (Control* child in _children)
+	{
+		if (child)
+			delete child;
+	}
+}
 
 
 void
