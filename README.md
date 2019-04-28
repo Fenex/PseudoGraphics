@@ -43,8 +43,18 @@ Pseudo Graphics is a static library API for developing User Interface on windows
 Every component can be created with no values passed to constructor. These can be modified and set later - avoiding this will be resulted with **undefined behavior**.<br>
 
 Here are some good practices for instantiating the components:
-![table](https://user-images.githubusercontent.com/21342315/41191692-acac5d1e-6bf3-11e8-89f9-cb17dc1b3db7.png)
 
+Component|Syntax|Example
+---------|------|-------
+Label|Label(String text)|`Label label("a label");`|
+Button|Button(String title)|`Button btn("click me");`|
+TextBox|TextBox(short left, short top, short width, short height)|`TextBox tb(1, 1, 12, 5);`|
+NumericBox|NumericBox(int max, int min, int value)|`NumericBox nb(100, 90, 95);`|
+MessageBox|MyMessageBox(String btn_text, String pop_msg)|`MyMessageBox mb("Exit", "Sure?");`|
+RadioBox|RadioBox()|`RadioBox rb();`|
+ComboBox|ComboBox()|`ComboBox cb();`|
+CheckList|CheckList()|`CheckList cl();`|
+Panel|Panel(void)|`Panel panel;`|
 
 ### Basic Usage Demo
 
@@ -114,7 +124,7 @@ Can't run the tests? read the section below.
 
 ### Unit Testings
 
-We used Google Tests framework to perform our unit testings. Here's the official documentation for [how to set up GoogleTests in Visuak Studio 2017](https://docs.microsoft.com/en-us/visualstudio/test/how-to-use-google-test-for-cpp). You can also use the framework independently with no restriction to any IDE with [this guide](http://www.bogotobogo.com/cplusplus/google_unit_test_gtest.php) if you like.<br> [Here](https://stackoverflow.com/questions/50240498/issue-with-google-test-in-visual-studio-2017) is a common linker issue you might experience after trying to run your test cases. We recommand set up the Configuration Type (Project Properties->General->Configuration Type) of your tested program as Static Lib (.lib) and only then run your tests.
+We used Google Tests framework to perform our unit testings. Here's the official documentation for [how to set up GoogleTests in Visual Studio 2017](https://docs.microsoft.com/en-us/visualstudio/test/how-to-use-google-test-for-cpp). You can also use the framework independently with no restriction to any IDE with [this guide](http://www.bogotobogo.com/cplusplus/google_unit_test_gtest.php) if you like.<br> [Here](https://stackoverflow.com/questions/50240498/issue-with-google-test-in-visual-studio-2017) is a common linker issue you might experience after trying to run your test cases. We recommand set up the Configuration Type (Project Properties->General->Configuration Type) of your tested program as Static Lib (.lib) and only then run your tests.
 
 
 How to run the tests?
@@ -122,4 +132,4 @@ How to run the tests?
 1. In PsuedoGraphic Solution, right click PseudoGraphics project->Properties->General->Configuration Type-> switch from Application(.exe) to Static Lib (.lib)
 2. In PsuedoGraphic Solution, right click UnitTests project->Properties->Linker->General->Additional Library Directories-> <Edit..> -> New Line (ctrl + insert_) -> browse to the PseudoGraphics project (in our case path\to\VisualStudioProjects\PseudoGraphics\PseudoGraphics) -> click Ok
 3. clean solution & build again
-4. On visual studio top toolbar go to Tests -> Windows -> Tests Explorer (Ctrl+E). The test explorer will open up on your right side of the screen. Click 'Runn All' and u're done.
+4. On visual studio top toolbar go to Tests -> Windows -> Tests Explorer (Ctrl+E). The test explorer will open up on your right side of the screen. Click 'Run All' and u're done.
